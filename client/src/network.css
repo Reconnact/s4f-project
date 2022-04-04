@@ -1,0 +1,153 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+  
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+  
+body {
+  background-color: antiquewhite;
+}
+  
+a {
+  text-decoration: none;
+  color: black;
+}
+  
+.App-header { 
+  padding-left: 10%;
+  padding-right: 10%; 
+  display: flex;
+  height: 100%;
+  background-color: white;  
+}
+  
+.inner-header {
+  width: 100%;
+}
+  
+main {
+  display: flex;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+  
+.personalCard {
+  border-radius: 15px;
+  float: right;
+  background-color: white;
+  margin-top: 2%;
+  width: 30%;
+  text-align: center;
+  word-wrap: break-word;
+  height: 100%;
+}
+  
+.personalCard img {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+}
+
+.personalCard a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+  
+.feed {
+  width: 70%;
+  margin-top: 2%;
+  margin-right: 3%;
+  border-radius: 15px;
+  background-color: white;
+  padding: 2%;
+}
+  
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin-bottom: 5%;
+}
+  
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3%;
+}
+  
+.card-body h4 {
+  margin-top: 0%;
+}
+  
+.card-body p {
+  font-size: 13px;
+  margin: 0 0 5%;
+}
+  
+.user {
+  display: flex;
+  width: 100%;
+}
+  
+.user img {
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  margin-right: 2%;
+}
+  
+.user-info h5 {
+  margin: 0;
+}
+  
+.user-info small {
+  color: #545d7a;
+}
+
+.profile {
+  display: flex;
+  padding-left: 10%;
+}
+
+
+.profileNav {
+  display: flex;
+  border-radius: 15px;
+  background-color: white;
+  margin-top: 2%;
+  width: 88.75%;
+  word-wrap: break-word;
+  height: 100%;
+}
+  
+.profileNav img {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+}
+
+.profileOptions {
+  margin-top: 5%;
+}
+
+.profileOptions button {
+  background-color: white;
+  border: 1px solid #555555;
+  border-radius: 5px;
+  width: 40%;
+  margin-right: 5%;
+}
+
+.description {
+  margin-top: 15%;
+  width: 90%;
+}
