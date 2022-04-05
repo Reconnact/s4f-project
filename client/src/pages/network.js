@@ -2,12 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '../network.css';
+import Account from './account';
 import Profile from './profile';
 import Error from './error';
 import Content from '../content';
 
 function SocialNetwork(props) {
-
 
   return (
     <Router>
@@ -35,12 +35,13 @@ function SocialNetwork(props) {
             </a></div>
         </main>
       </body>}/>
-        <Route path="/account" element={<Profile 
+        <Route path="/account" element={<Account 
          profilePicture={props.profilePicture}
          username={props.username}
          firstName={props.firstName}
          lastName={props.lastName}/>} />
-         <Route path="*" element={<Error />}/> t
+         <Route path="/profile/:username" element={<Profile />}/>
+        <Route path="*" element={<Error />}/>
       </Routes>
       
     </Router>

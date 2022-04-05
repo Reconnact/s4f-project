@@ -92,7 +92,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    req.session.user = null;
+    //TODO
 });
 
 app.get("/contentNum", (req, res)=> {
