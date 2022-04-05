@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import './App.css';
-import SocialNetwork from './network';
+import SocialNetwork from './pages/network';
 import Content from './content';
 
 

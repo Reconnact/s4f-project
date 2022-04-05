@@ -1,7 +1,7 @@
 import React from 'react';
-import './network.css';
+import { Helmet } from 'react-helmet'
+import '../network.css';
 import Axios from 'axios';
-import { useEffect } from 'react/cjs/react.production.min';
 
 class Profile extends React.Component {
   constructor(props){
@@ -17,9 +17,13 @@ class Profile extends React.Component {
   render() {
   return (
     <body>
+      <Helmet>
+      <meta charSet="utf-8" />
+      <title>{this.props.username} | Account</title>
+      </Helmet>
       <header className="App-header" id="App-header">
           <div className='inner-header'>
-            <a href='index.js'><h3>Social Network</h3></a>
+            <a href='/'><h3>Social Network</h3></a>
           </div>
       </header>
       <div className='profile'>
