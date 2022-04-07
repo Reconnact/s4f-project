@@ -5,6 +5,7 @@ import '../network.css';
 import Account from './account';
 import Profile from './profile';
 import Error from './error';
+import Edit from './edit';
 import Content from '../content';
 
 function SocialNetwork(props) {
@@ -14,7 +15,7 @@ function SocialNetwork(props) {
       <Helmet>
       <meta charSet="utf-8" />
       <title>SocialNetwork</title>
-    </Helmet>
+      </Helmet>
       <Routes>
         <Route  path="/" element={
         <body>
@@ -28,7 +29,7 @@ function SocialNetwork(props) {
           </div>
           <div className='personalCard'>
             <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>
-              <img src={props.profilePicture}/>
+              <img src="/profile-pictures/profilePicture.png"/>
               <div style={{fontSize: "150%"}} id="username">{props.username}</div>
               <div>{props.firstName} {props.lastName}</div>
             </div>
@@ -36,11 +37,18 @@ function SocialNetwork(props) {
         </main>
       </body>}/>
         <Route path="/account" element={<Account 
-         profilePicture={props.profilePicture}
+         profilePicture='/profile-pictures/profilePicture.png'
          username={props.username}
          firstName={props.firstName}
-         lastName={props.lastName}/>} />
+         lastName={props.lastName}
+         bio={props.bio}/>}/>
          <Route path="/profile/:username" element={<Profile />}/>
+         <Route path="/account/edit" element={<Edit 
+         profilePicture='/profile-pictures/profilePicture.png'
+         username={props.username}
+         firstName={props.firstName}
+         lastName={props.lastName}
+         bio={props.bio}/>}/>
         <Route path="*" element={<Error />}/>
       </Routes>
       

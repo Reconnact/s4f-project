@@ -95,6 +95,23 @@ app.get('/logout', (req, res) => {
     //TODO
 });
 
+app.post('/editProfile', (req, res) => {
+    const oldUsername = req.body.oldUsername;
+    const username = req.body.username;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const bio = req.body.bio;
+
+    db.query(
+        "UPDATE profile SET username = ?, firstName = ?, lastName = ?, bio = ? WHERE username = ?",
+        [username, firstName, lastName, bio, oldUsername],
+        (err, result) => {
+            console.log(err);
+            res.send(result);
+        }
+    );
+});
+
 app.get("/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",

@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 import '../network.css'
 import Axios from 'axios'
 
+
 class Profile extends React.Component {
   constructor(props){
     super(props);
@@ -12,6 +13,10 @@ class Profile extends React.Component {
   logOut() {
     Axios.get('http://localhost:3001/logout');
     //window.location.reload();
+  }
+
+  edit(){
+    window.location.href = '/account/edit'  
   }
 
   render() {
@@ -34,8 +39,8 @@ class Profile extends React.Component {
           <div>{this.props.firstName} {this.props.lastName}</div>
         </div>
         <div className='profileOptions'>
-          <button>Edit profile</button><button onClick={this.logOut}>Log out</button>
-          <div className='description'>TODO:<br/> Hier kommt die Beschreibung hin</div>
+          <button onClick={this.edit}>Edit profile</button><button onClick={this.logOut}>Log out</button>
+          <div className='description'>{this.props.bio}</div>
         </div>
       </div>
       </div>

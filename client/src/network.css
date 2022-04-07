@@ -135,8 +135,68 @@ main {
   border-radius: 100%;
 }
 
+.editProfile {
+  display: flex;
+  border-radius: 15px;
+  background-color: white;
+  margin-top: 2%;
+  width: 88.75%;
+  word-wrap: break-word;
+  height: 100%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.editProfileData {
+  display: flex;
+}
+
+.editProfile img {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  padding-bottom: 1%;
+}
+
+.editPicture {
+  padding-bottom: 5%;
+  margin-left: 5%;
+}
+
+.editPicture p {
+  font-size: 120%;
+  margin: 0;
+  margin-bottom: 7%;
+}
+
+.editPicture a {
+  color: rgb(68, 68, 255);
+  font-weight: 600;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.edit {
+  display: flex;
+  padding-bottom: 2%;
+}
+
+.editText {
+  width: 100%;
+}
+
+.editProfile button {
+  background-color: white;
+  border: 1px solid #555555;
+  border-radius: 5px;
+  width: 35%;
+}
+
 .profileOptions {
   margin-top: 5%;
+  width: 100%;
 }
 
 .profileOptions button {
@@ -145,6 +205,7 @@ main {
   border-radius: 5px;
   width: 40%;
   margin-right: 5%;
+  width: 20%;
 }
 
 .description {
@@ -226,4 +287,8 @@ div.text a:hover {
     color: red;
     text-decoration: underline; 
   }
+}
+
+button:hover {
+  cursor: pointer;
 }

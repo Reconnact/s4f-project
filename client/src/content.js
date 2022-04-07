@@ -16,8 +16,6 @@ function Content() {
         //setBlogs(blogs => [...blogs, {title: response.data[0].title, text: response.data[0].text, author: "Reconnact", date: "Jetzt"}])
         //blogs.push({title: response.data[0].title, text: response.data[0].text, author: "Reconnact", date: "Jetzt"});
         //TODO
-
-
       });
     }
     

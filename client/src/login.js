@@ -7,7 +7,7 @@ import Content from './content';
 
 
 function Login(){
-const [usernameReg, setUsernameReg] = useState('');
+  const [usernameReg, setUsernameReg] = useState('');
   const [passwordReg, setPasswordReg] = useState('');
   const [firstNameReg, setFirstNameReg] = useState('');
   const [lastNameReg, setLastNameReg] = useState('');
@@ -56,25 +56,14 @@ const [usernameReg, setUsernameReg] = useState('');
 
   const network = () => {
     Axios.get("http://localhost:3001/login").then((response) =>{
-      if (response.data.user[0].profilePicture == null){
-        ReactDOM.render(
-          <SocialNetwork 
-          username={response.data.user[0].username} 
-          firstName={response.data.user[0].firstName}
-          lastName={response.data.user[0].lastName}
-          profilePicture={'/profile-pictures/profilePicture.png'}/>,
-          document.getElementById('root')
-        );
-      }else{
-        ReactDOM.render(
-          <SocialNetwork 
-          username={response.data.user[0].username} 
-          firstName={response.data.user[0].firstName}
-          lastName={response.data.user[0].lastName}
-          profilePicture={response.data.user[0].profilePicture}/>,
-          document.getElementById('root')
-        );
-      }
+      ReactDOM.render(
+        <SocialNetwork 
+        username={response.data.user[0].username} 
+        firstName={response.data.user[0].firstName}
+        lastName={response.data.user[0].lastName}
+        bio={response.data.user[0].bio}/>,
+        document.getElementById('root')
+      );
       ReactDOM.render(
         <Content />,
         document.getElementById("feed")
