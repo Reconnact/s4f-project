@@ -1,13 +1,18 @@
 import Axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
+import {useNavigate} from 'react-router-dom';
+import Notification from '../notification';
+
 
 function Edit(props) {
-    const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [bio, setBio] = useState('');
+    let navigate = useNavigate();
+    const [username, setUsername] = useState(props.username);
+    const [firstName, setFirstName] = useState(props.firstName);
+    const [lastName, setLastName] = useState(props.lastName);
+    const [bio, setBio] = useState(props.bio);
+    const notificationRef = useRef(null);
 
     const changeData = () => {
         Axios.post("http://localhost:3001/editProfile", {
@@ -19,6 +24,10 @@ function Edit(props) {
         }).then((response)=> {
             console.log(response);
         });
+        notificationRef.current.show();
+        setTimeout(() => {
+            navigate("../")
+        }, 3000);
     }
 
     return (
@@ -46,19 +55,19 @@ function Edit(props) {
                                 <label className='editText'>Username:</label>
                                 <div><input type="text" placeholder={props.username}  
                                 onChange={(e) => {setUsername(e.target.value)}}
-                                value={props.username}/></div>
+                                defaultValue={props.username}/></div>
                             </div>
                             <div className='edit'>
                                 <div className='editText'>Vorname:</div>
                                 <div><input type="text" placeholder={props.firstName}
                                 onChange={(e) => {setFirstName(e.target.value)}}
-                                value={props.firstName}/></div>
+                                defaultValue={props.firstName}/></div>
                             </div>
                             <div className='edit'>
                                 <div className='editText'>Nachname: </div>
                                 <div><input type="text" placeholder={props.lastName}
                                 onChange={(e) => {setLastName(e.target.value)}}
-                                value={props.lastName}/></div>
+                                defaultValue={props.lastName}/></div>
                             </div>
                             <div className='edit'>
                                 <div className='editText'>Profil-Bio: </div>
@@ -69,6 +78,7 @@ function Edit(props) {
                         </div>
                 </div>
             </div>
+            <Notification ref={notificationRef} message="Daten wurden geändert" type="success"/>
         </body>
       );
 }

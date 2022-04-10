@@ -68,7 +68,7 @@ app.post('/login', (req, res) => {
     const password = req.body.password;
 
     db.query(
-        "SELECT * FROM profile WHERE username = ?;",
+        "SELECT * FROM profile WHERE username = ?;",    
         username,
         (err, result) => {
             if (err){
@@ -78,7 +78,6 @@ app.post('/login', (req, res) => {
                 bcrypt.compare(password, result[0].password, (error, response) =>{
                     if(response){
                         req.session.user = result;
-                        console.log(req.session.user);
                         res.send(result);
                     } else {
                         res.send({message: "Wrong username or password"}); 
@@ -92,7 +91,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    //TODO
+    //req.session.destroy();
 });
 
 app.post('/editProfile', (req, res) => {

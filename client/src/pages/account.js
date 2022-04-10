@@ -12,7 +12,6 @@ class Profile extends React.Component {
 
   logOut() {
     Axios.get('http://localhost:3001/logout');
-    //window.location.reload();
   }
 
   edit(){
