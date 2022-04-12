@@ -25,7 +25,7 @@ function Login(){
       firstName: firstNameReg,
       lastName: lastNameReg
     }).then((response)=> {
-      console.log(response);
+      setLoginStatus(response.data.message)
     });
     
   }

@@ -40,19 +40,34 @@ app.post('/register', (req, res)=> {
     const password = req.body.password;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-        if(err){
-            console.log(err);   
-        }
+    if (username && password && firstName && lastName != null){
         db.query(
-            "INSERT INTO profile(username, password, firstName, lastName) VALUES (?,?,?,?)",
-            [username, hash, firstName, lastName],
+            "SELECT * FROM profile WHERE username = ?",
+            username,
             (err, result) => {
-                console.log(err);
+                console.log(result);
+                if (result.length === 0){
+                    bcrypt.hash(password, saltRounds, (err, hash) => {
+                        if(err){
+                            console.log(err);   
+                        }
+                        db.query(
+                            "INSERT INTO profile(username, password, firstName, lastName) VALUES (?,?,?,?)",
+                            [username, hash, firstName, lastName],
+                            (err, result) => {
+                                console.log(err);
+                            }
+                        );
+                    });
+                    console.log(result)
+                } else {
+                    res.send({message: "Benutzername schon vergeben"})
+                }
             }
         );
-    });
+    } else {
+        res.send({message: "Bitte alle Felder ausfüllen"})
+    }
 });
 
 app.get("/login", (req, res)=> {
@@ -80,11 +95,11 @@ app.post('/login', (req, res) => {
                         req.session.user = result;
                         res.send(result);
                     } else {
-                        res.send({message: "Wrong username or password"}); 
+                        res.send({message: "Falscher Benutzername oder Passwort"}); 
                     }
                 });
             } else {
-                res.send({message: "User doesn't exisit"});
+                res.send({message: "Dieser Benutzer existiert nicht"});
             }
         }
     );
