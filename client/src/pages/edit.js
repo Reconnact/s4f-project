@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
 import {useNavigate} from 'react-router-dom';
-import Notification from '../notification';
+import Notification from '../components/notification';
 
 
 function Edit(props) {
