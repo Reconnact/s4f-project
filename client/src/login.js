@@ -64,11 +64,16 @@ function Login(){
         bio={response.data.user[0].bio}/>,
         document.getElementById('root')
       );
-      ReactDOM.render(
-        <Content />,
-        document.getElementById("feed")
-      );
-  });
+      Axios.get("http://localhost:3001/contentNum").then((response) =>{ 
+        ReactDOM.render(
+          <Content max={response.data[0].Max_Id}/>,
+          document.getElementById("feed")
+        ); 
+      });
+      
+    });
+    
+    
   };
   return(
       <div className="App">

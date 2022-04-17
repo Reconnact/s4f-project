@@ -45,7 +45,6 @@ app.post('/register', (req, res)=> {
             "SELECT * FROM profile WHERE username = ?",
             username,
             (err, result) => {
-                console.log(result);
                 if (result.length === 0){
                     bcrypt.hash(password, saltRounds, (err, hash) => {
                         if(err){
@@ -59,7 +58,6 @@ app.post('/register', (req, res)=> {
                             }
                         );
                     });
-                    console.log(result)
                 } else {
                     res.send({message: "Benutzername schon vergeben"})
                 }
@@ -130,20 +128,27 @@ app.get("/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
-            console.log(result);
             res.send(result);
         }
     );
 });
 
-app.get("/content", (req, res)=> {
+app.post("/content", (req, res)=> {
     const id = req.body.id;
     db.query(
         "SELECT * FROM post WHERE postID = ?;",
-        [id],
-        (err, result) => {
-            console.log(err);
-            res.send(result);
+        id,
+        (err, result1) => {
+            const profileId = result1[0].profileID;  
+              
+            db.query(
+                "SELECT username FROM profile WHERE profileId = ?;",
+                profileId,
+                (err, result2) => {
+                    const result = [{result1}, {result2}]
+                    res.send(result); 
+                }
+            );
         }
     );
 });

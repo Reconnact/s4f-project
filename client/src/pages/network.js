@@ -8,8 +8,8 @@ import Error from './error';
 import Edit from './edit';
 import Content from '../content';
 
-function SocialNetwork(props) {
 
+function SocialNetwork(props) {
   return (
     <Router>
       <Helmet>
@@ -25,7 +25,7 @@ function SocialNetwork(props) {
             </div>
         </header>
         <main>
-          <div className='feed' id='feed'>
+          <div className='feed' id='feed' >
           </div>
           <div className='personalCard'>
             <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>

@@ -108,6 +108,14 @@ main {
 .user-info h5 {
   margin: 0;
 }
+
+.userLink {
+  width: 30%;
+}
+
+.userLink :hover h5{
+  text-decoration: underline;
+}
   
 .user-info small {
   color: #545d7a;
