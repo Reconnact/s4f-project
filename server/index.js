@@ -45,7 +45,6 @@ app.post('/register', (req, res)=> {
             "SELECT * FROM profile WHERE username = ?",
             username,
             (err, result) => {
-                console.log(result);
                 if (result.length === 0){
                     bcrypt.hash(password, saltRounds, (err, hash) => {
                         if(err){
@@ -59,7 +58,6 @@ app.post('/register', (req, res)=> {
                             }
                         );
                     });
-                    console.log(result)
                 } else {
                     res.send({message: "Benutzername schon vergeben"})
                 }
@@ -131,7 +129,6 @@ app.get("/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
-            console.log(result);
             res.send(result);
         }
     );
