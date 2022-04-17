@@ -18,8 +18,8 @@ app.use(cors({
 
 const db = mysql.createConnection({
     user: 'root',
-    host: 'localhost',
-    password: '',
+    host: '127.0.0.1',
+    password: 'superschlau',
     database: 's4f'
 });
 app.use(cookieParser());
@@ -86,6 +86,7 @@ app.post('/login', (req, res) => {
         "SELECT * FROM profile WHERE username = ?;",    
         username,
         (err, result) => {
+            console.log(err)
             if (err){
                 res.send({err: err});
             }
@@ -136,14 +137,22 @@ app.get("/contentNum", (req, res)=> {
     );
 });
 
-app.get("/content", (req, res)=> {
+app.post("/content", (req, res)=> {
     const id = req.body.id;
     db.query(
         "SELECT * FROM post WHERE postID = ?;",
-        [id],
-        (err, result) => {
-            console.log(err);
-            res.send(result);
+        id,
+        (err, result1) => {
+            const profileId = result1[0].profileID;  
+              
+            db.query(
+                "SELECT username FROM profile WHERE profileId = ?;",
+                profileId,
+                (err, result2) => {
+                    const result = [{result1}, {result2}]
+                    res.send(result); 
+                }
+            );
         }
     );
 });

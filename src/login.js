@@ -54,22 +54,27 @@ function Login(){
       });
     }, []);
 
-  const network = () => {
-    Axios.get("http://localhost:3001/login").then((response) =>{
-      ReactDOM.render(
-        <SocialNetwork 
-        username={response.data.user[0].username} 
-        firstName={response.data.user[0].firstName}
-        lastName={response.data.user[0].lastName}
-        bio={response.data.user[0].bio}/>,
-        document.getElementById('root')
-      );
-      ReactDOM.render(
-        <Content />,
-        document.getElementById("feed")
-      );
-  });
-  };
+    const network = () => {
+      Axios.get("http://localhost:3001/login").then((response) =>{
+        ReactDOM.render(
+          <SocialNetwork 
+          username={response.data.user[0].username} 
+          firstName={response.data.user[0].firstName}
+          lastName={response.data.user[0].lastName}
+          bio={response.data.user[0].bio}/>,
+          document.getElementById('root')
+        );
+        Axios.get("http://localhost:3001/contentNum").then((response) =>{ 
+          ReactDOM.render(
+            <Content max={response.data[0].Max_Id}/>,
+            document.getElementById("feed")
+          ); 
+        });
+        
+      });
+      
+      
+    };
   return(
       <div className="App">
       <div className='login'>
