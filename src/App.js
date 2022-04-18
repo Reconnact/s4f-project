@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
-import Content from './content';
-import Login from './login';
+//import './App.css';
+//import Login from './login';
 
 
 function App() {
   return (
-    <Login />
+    <div>Hello World</div>
   );
 }
 
