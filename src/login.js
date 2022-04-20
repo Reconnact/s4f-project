@@ -18,8 +18,9 @@ function Login(){
   const [loginStatus, setLoginStatus] = useState('');
 
   Axios.defaults.withCredentials = true;
+  
   const register = () => {
-    Axios.post('http://localhost:3001/register', {
+    Axios.post('http://social-ims.alpha-lab.net:3001/register', {
       username: usernameReg,
       password: passwordReg,
       firstName: firstNameReg,
@@ -31,7 +32,7 @@ function Login(){
   }
 
   const login = () => {
-    Axios.post('http://localhost:3001/login', {
+    Axios.post('http://social-ims.alpha-lab.net:3001/login', {
       username: username,
       password: password,
     }).then((response)=> {
@@ -46,7 +47,7 @@ function Login(){
   }
 
     useEffect(()=> {
-      Axios.get("http://localhost:3001/login").then((response) =>{
+      Axios.get("http://social-ims.alpha-lab.net:3001/login").then((response) =>{
         if (response.data.loggedIn === true){
           setLoginStatus(response.data.user[0].username);
           network();
@@ -55,7 +56,7 @@ function Login(){
     }, []);
 
     const network = () => {
-      Axios.get("http://localhost:3001/login").then((response) =>{
+      Axios.get("http://social-ims.alpha-lab.net:3001/login").then((response) =>{
         ReactDOM.render(
           <SocialNetwork 
           username={response.data.user[0].username} 
@@ -64,7 +65,7 @@ function Login(){
           bio={response.data.user[0].bio}/>,
           document.getElementById('root')
         );
-        Axios.get("http://localhost:3001/contentNum").then((response) =>{ 
+        Axios.get("http://social-ims.alpha-lab.net:3001/contentNum").then((response) =>{ 
           ReactDOM.render(
             <Content max={response.data[0].Max_Id}/>,
             document.getElementById("feed")

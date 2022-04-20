@@ -11,15 +11,15 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://social-ims.alpha-lab.net"],
     methods: ["GET", "POST"],
     credentials: true
 }));
 
 const db = mysql.createConnection({
-    user: 'root',
-    host: '127.0.0.1',
-    password: 'superschlau',
+    user: 's4f',
+    host: 'database-1.cnqtgd3kedxw.us-east-1.rds.amazonaws.com',
+    password: 'ndsaifdhjfi',
     database: 's4f'
 });
 app.use(cookieParser());
@@ -77,6 +77,7 @@ app.get("/login", (req, res)=> {
 });
 
 app.post('/login', (req, res) => {
+    console.log("login requested");
     const username = req.body.username;
     const password = req.body.password;
 
