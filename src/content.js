@@ -7,7 +7,7 @@ function Content(props) {
   
   useEffect(() => {
     for (var i = props.max; i > 0; i--) {
-      const response = Axios.post("http://localhost:3001/content", {id: i});
+      const response = Axios.post("http://social-ims.alpha-lab.net:3001/content", {id: i});
       response.then((res) => {
         var t = res.data[0].result1[0].date.split("T");
         setBlogs( myArray => [...myArray, {title: res.data[0].result1[0].title, text: res.data[0].result1[0].text, 
