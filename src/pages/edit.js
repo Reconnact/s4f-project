@@ -15,7 +15,7 @@ function Edit(props) {
     const notificationRef = useRef(null);
 
     const changeData = () => {
-        Axios.post("http://localhost:3001/editProfile", {
+        Axios.post("http://social-ims.alpha-lab.net/api/editProfile", {
             oldUsername: props.username,
             username: username,
             firstName: firstName,
@@ -53,7 +53,7 @@ function Edit(props) {
                             </div>
                             <div className='edit'>
                                 <label className='editText'>Username:</label>
-                                <div><input type="text" placeholder={props.username}  
+                                <div><input type="text" placeholder={props.username}
                                 onChange={(e) => {setUsername(e.target.value)}}
                                 defaultValue={props.username}/></div>
                             </div>
