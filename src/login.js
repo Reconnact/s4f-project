@@ -18,8 +18,9 @@ function Login(){
   const [loginStatus, setLoginStatus] = useState('');
 
   Axios.defaults.withCredentials = true;
+  
   const register = () => {
-    Axios.post(config.SERVER_URL + ':3001/register', {
+    Axios.post('http://social-ims.alpha-lab.net/api/register', {
       username: usernameReg,
       password: passwordReg,
       firstName: firstNameReg,
@@ -31,7 +32,7 @@ function Login(){
   }
 
   const login = () => {
-    Axios.post(config.SERVER_URL + ':3001/login', {
+    Axios.post('http://social-ims.alpha-lab.net/api/login', {
       username: username,
       password: password,
     }).then((response)=> {
@@ -45,34 +46,36 @@ function Login(){
     });
   }
 
-  useEffect(()=> {
-    Axios.get(config.SERVER_URL + ':3001/login').then((response) =>{
-      if (response.data.loggedIn === true){
-        setLoginStatus(response.data.user[0].username);
-        network();
-      }
-    });
-  }, []);
+    useEffect(()=> {
+      Axios.get("http://social-ims.alpha-lab.net/api/login").then((response) =>{
+        if (response.data.loggedIn === true){
+          setLoginStatus(response.data.user[0].username);
+          network();
+        }
+      });
+    }, []);
 
-  const network = () => {
-    Axios.get(config.SERVER_URL + ':3001/login').then((response) =>{
-      ReactDOM.render(
-        <SocialNetwork 
-        username={response.data.user[0].username} 
-        firstName={response.data.user[0].firstName}
-        lastName={response.data.user[0].lastName}
-        bio={response.data.user[0].bio}/>,
-        document.getElementById('root')
-      );
-      Axios.get(config.SERVER_URL + ':3001/contentNum').then((response) =>{ 
+    const network = () => {
+      Axios.get("http://social-ims.alpha-lab.net/api/login").then((response) =>{
         ReactDOM.render(
-          <Content max={response.data[0].Max_Id}/>,
-          document.getElementById("feed")
-        ); 
-      });    
-    }); 
-  };
-
+          <SocialNetwork 
+          username={response.data.user[0].username} 
+          firstName={response.data.user[0].firstName}
+          lastName={response.data.user[0].lastName}
+          bio={response.data.user[0].bio}/>,
+          document.getElementById('root')
+        );
+        Axios.get("http://social-ims.alpha-lab.net/api/contentNum").then((response) =>{ 
+          ReactDOM.render(
+            <Content max={response.data[0].Max_Id}/>,
+            document.getElementById("feed")
+          ); 
+        });
+        
+      });
+      
+      
+    };
   return(
     <div className="App">
       <div className='login'>

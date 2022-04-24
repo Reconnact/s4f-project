@@ -11,11 +11,11 @@ class Profile extends React.Component {
   }
 
   logOut() {
-    Axios.get('http://localhost:3001/logout');
+    Axios.get('http://social-ims.alpha-lab.net/api/logout');
   }
 
   edit(){
-    window.location.href = '/account/edit'  
+    window.location.href = '/account/edit'
   }
 
   render() {

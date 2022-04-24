@@ -12,15 +12,15 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: [config.SERVER_URL + ":3000"],
+    origin: ["http://social-ims.alpha-lab.net"],
     methods: ["GET", "POST"],
     credentials: true
 }));
 
 const db = mysql.createConnection({
-    user: config.DB_USER,
-    host: config.DB_HOST,
-    password: config.DB_PASSWORD,
+    user: 's4f',
+    host: 'database-1.cnqtgd3kedxw.us-east-1.rds.amazonaws.com',
+    password: 'ndsaifdhjfi',
     database: 's4f'
 });
 app.use(cookieParser());
@@ -36,7 +36,7 @@ app.use(session({
     }
 }));
 
-app.post('/register', (req, res)=> {
+app.post('/api/register', (req, res)=> {
     const username = req.body.username;
     const password = req.body.password;
     const firstName = req.body.firstName;
@@ -69,7 +69,7 @@ app.post('/register', (req, res)=> {
     }
 });
 
-app.get("/login", (req, res)=> {
+app.get("/api/login", (req, res)=> {
     if (req.session.user) {
       res.send({loggedIn: true, user: req.session.user});
     } else {
@@ -77,7 +77,8 @@ app.get("/login", (req, res)=> {
     }
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
+    console.log("login requested");
     const username = req.body.username;
     const password = req.body.password;
 
@@ -105,11 +106,11 @@ app.post('/login', (req, res) => {
     );
 });
 
-app.get('/logout', (req, res) => {
+app.get('/api/logout', (req, res) => {
     //req.session.destroy();
 });
 
-app.post('/editProfile', (req, res) => {
+app.post('/api/editProfile', (req, res) => {
     const oldUsername = req.body.oldUsername;
     const username = req.body.username;
     const firstName = req.body.firstName;
@@ -126,7 +127,7 @@ app.post('/editProfile', (req, res) => {
     );
 });
 
-app.get("/contentNum", (req, res)=> {
+app.get("/api/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
@@ -135,7 +136,7 @@ app.get("/contentNum", (req, res)=> {
     );
 });
 
-app.post("/content", (req, res)=> {
+app.post("/api/content", (req, res)=> {
     const id = req.body.id;
     db.query(
         "SELECT * FROM post WHERE postID = ?;",
