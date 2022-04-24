@@ -5,7 +5,7 @@ import './App.css';
 import SocialNetwork from './pages/network';
 import Content from './content';
 
-
+const config = require('./conf/confDefault.json');
 function Login(){
   const [usernameReg, setUsernameReg] = useState('');
   const [passwordReg, setPasswordReg] = useState('');
@@ -19,7 +19,7 @@ function Login(){
 
   Axios.defaults.withCredentials = true;
   const register = () => {
-    Axios.post('http://localhost:3001/register', {
+    Axios.post(config.SERVER_URL + ':3001/register', {
       username: usernameReg,
       password: passwordReg,
       firstName: firstNameReg,
@@ -31,7 +31,7 @@ function Login(){
   }
 
   const login = () => {
-    Axios.post('http://localhost:3001/login', {
+    Axios.post(config.SERVER_URL + ':3001/login', {
       username: username,
       password: password,
     }).then((response)=> {
@@ -45,38 +45,36 @@ function Login(){
     });
   }
 
-    useEffect(()=> {
-      Axios.get("http://localhost:3001/login").then((response) =>{
-        if (response.data.loggedIn === true){
-          setLoginStatus(response.data.user[0].username);
-          network();
-        }
-      });
-    }, []);
+  useEffect(()=> {
+    Axios.get(config.SERVER_URL + ':3001/login').then((response) =>{
+      if (response.data.loggedIn === true){
+        setLoginStatus(response.data.user[0].username);
+        network();
+      }
+    });
+  }, []);
 
-    const network = () => {
-      Axios.get("http://localhost:3001/login").then((response) =>{
+  const network = () => {
+    Axios.get(config.SERVER_URL + ':3001/login').then((response) =>{
+      ReactDOM.render(
+        <SocialNetwork 
+        username={response.data.user[0].username} 
+        firstName={response.data.user[0].firstName}
+        lastName={response.data.user[0].lastName}
+        bio={response.data.user[0].bio}/>,
+        document.getElementById('root')
+      );
+      Axios.get(config.SERVER_URL + ':3001/contentNum').then((response) =>{ 
         ReactDOM.render(
-          <SocialNetwork 
-          username={response.data.user[0].username} 
-          firstName={response.data.user[0].firstName}
-          lastName={response.data.user[0].lastName}
-          bio={response.data.user[0].bio}/>,
-          document.getElementById('root')
-        );
-        Axios.get("http://localhost:3001/contentNum").then((response) =>{ 
-          ReactDOM.render(
-            <Content max={response.data[0].Max_Id}/>,
-            document.getElementById("feed")
-          ); 
-        });
-        
-      });
-      
-      
-    };
+          <Content max={response.data[0].Max_Id}/>,
+          document.getElementById("feed")
+        ); 
+      });    
+    }); 
+  };
+
   return(
-      <div className="App">
+    <div className="App">
       <div className='login'>
         <h1>Login</h1>
         <input
@@ -84,15 +82,13 @@ function Login(){
         placeholder='Username'
         onChange={(e) => {
           setUsername(e.target.value);
-        }}
-        /><br/>
+        }}/><br/>
         <input
         type='password' 
         placeholder='Password'
         onChange={(e) => {
           setPassword(e.target.value);
-        }}
-        /><br/>
+        }}/><br/>
         <button onClick={login}>Login</button>
       </div>
       <div className='registration'>

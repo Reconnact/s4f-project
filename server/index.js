@@ -6,20 +6,21 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
+const config = require('../src/conf/confDefault.json');
 const saltRounds = 10;
 const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: [config.SERVER_URL + ":3000"],
     methods: ["GET", "POST"],
     credentials: true
 }));
 
 const db = mysql.createConnection({
-    user: 'root',
-    host: '127.0.0.1',
-    password: 'superschlau',
+    user: config.DB_USER,
+    host: config.DB_HOST,
+    password: config.DB_PASSWORD,
     database: 's4f'
 });
 app.use(cookieParser());
@@ -27,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(session({
     key: "userId",
-    secret: "Im20a",
+    secret: config.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie : {
