@@ -2,12 +2,11 @@ import Axios from 'axios'
 import React, { useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
-import {useNavigate} from 'react-router-dom';
 import Notification from '../components/notification';
+import * as settings from '../conf/conf';
 
 
 function Edit(props) {
-    let navigate = useNavigate();
     const [username, setUsername] = useState(props.username);
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
@@ -15,7 +14,7 @@ function Edit(props) {
     const notificationRef = useRef(null);
 
     const changeData = () => {
-        Axios.post("http://social-ims.alpha-lab.net/api/editProfile", {
+        Axios.post(settings.config.SERVER_URL + '/editProfile', {
             oldUsername: props.username,
             username: username,
             firstName: firstName,
@@ -26,8 +25,8 @@ function Edit(props) {
         });
         notificationRef.current.show();
         setTimeout(() => {
-            navigate("../")
-        }, 3000);
+            window.location.href=("/")
+        }, 1000);
     }
 
     return (

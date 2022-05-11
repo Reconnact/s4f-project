@@ -6,7 +6,7 @@ import Account from './account';
 import Profile from './profile';
 import Error from './error';
 import Edit from './edit';
-import Content from '../content';
+import Post from './post';
 
 
 function SocialNetwork(props) {
@@ -27,22 +27,32 @@ function SocialNetwork(props) {
         <main>
           <div className='feed' id='feed' >
           </div>
-          <div className='personalCard'>
-            <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>
-              <img src="/profile-pictures/profilePicture.png"/>
-              <div style={{fontSize: "150%"}} id="username">{props.username}</div>
-              <div>{props.firstName} {props.lastName}</div>
+          <div style={{float: "right", width: "30%", marginTop: "2%"}}>
+            <div className='personalCard'>
+              <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
+                <img src="/profile-pictures/profilePicture.png"/>
+                <div style={{fontSize: "150%"}} id="username">{props.username}</div>
+                <div>{props.firstName} {props.lastName}</div>
+              </div>
+              </a>
             </div>
-            </a></div>
+            <button className='addPostButton' onClick={()=> {window.location.href = "post/new"}}>
+              Beitrag erstellen
+            </button>
+         </div>
+
         </main>
       </body>}/>
+        <Route path='/post/new' element={<Post
+        id={props.id}/>}/>
         <Route path="/account" element={<Account 
          profilePicture='/profile-pictures/profilePicture.png'
          username={props.username}
          firstName={props.firstName}
          lastName={props.lastName}
          bio={props.bio}/>}/>
-         <Route path="/profile/:username" element={<Profile />}/>
+         <Route path="/profile/:username" element={<Profile 
+         username={props.username}/>}/>
          <Route path="/account/edit" element={<Edit 
          profilePicture='/profile-pictures/profilePicture.png'
          username={props.username}

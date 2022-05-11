@@ -5,22 +5,22 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const settings = require('./conf/confDefault.json');
 
-const config = require('../src/conf/confDefault.json');
 const saltRounds = 10;
 const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: ["http://social-ims.alpha-lab.net"],
+    origin: [settings.CLIENT_URL],
     methods: ["GET", "POST"],
     credentials: true
 }));
 
 const db = mysql.createConnection({
-    user: 's4f',
-    host: 'database-1.cnqtgd3kedxw.us-east-1.rds.amazonaws.com',
-    password: 'ndsaifdhjfi',
+    user: settings.DB_USER,
+    host: settings.DB_HOST,
+    password: settings.DB_PASSWORD,
     database: 's4f'
 });
 app.use(cookieParser());
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(session({
     key: "userId",
-    secret: config.SESSION_SECRET,
+    secret: settings.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie : {
@@ -36,7 +36,7 @@ app.use(session({
     }
 }));
 
-app.post('/api/register', (req, res)=> {
+app.post('/register', (req, res)=> {
     const username = req.body.username;
     const password = req.body.password;
     const firstName = req.body.firstName;
@@ -69,7 +69,7 @@ app.post('/api/register', (req, res)=> {
     }
 });
 
-app.get("/api/login", (req, res)=> {
+app.get("/login", (req, res)=> {
     if (req.session.user) {
       res.send({loggedIn: true, user: req.session.user});
     } else {
@@ -77,7 +77,7 @@ app.get("/api/login", (req, res)=> {
     }
 });
 
-app.post('/api/login', (req, res) => {
+app.post('/login', (req, res) => {
     console.log("login requested");
     const username = req.body.username;
     const password = req.body.password;
@@ -106,11 +106,11 @@ app.post('/api/login', (req, res) => {
     );
 });
 
-app.get('/api/logout', (req, res) => {
+app.get('/logout', (req, res) => {
     //req.session.destroy();
 });
 
-app.post('/api/editProfile', (req, res) => {
+app.post('/editProfile', (req, res) => {
     const oldUsername = req.body.oldUsername;
     const username = req.body.username;
     const firstName = req.body.firstName;
@@ -127,7 +127,7 @@ app.post('/api/editProfile', (req, res) => {
     );
 });
 
-app.get("/api/contentNum", (req, res)=> {
+app.get("/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
@@ -136,22 +136,45 @@ app.get("/api/contentNum", (req, res)=> {
     );
 });
 
-app.post("/api/content", (req, res)=> {
-    const id = req.body.id;
+
+app.post("/content", (req, res)=> {
     db.query(
-        "SELECT * FROM post WHERE postID = ?;",
-        id,
-        (err, result1) => {
-            const profileId = result1[0].profileID;  
-              
-            db.query(
-                "SELECT username FROM profile WHERE profileId = ?;",
-                profileId,
-                (err, result2) => {
-                    const result = [{result1}, {result2}]
-                    res.send(result); 
-                }
-            );
+        "select post.*, profile.username from post join profile where profile.profileID = post.profileID order by date desc limit 10;",
+        (err, result)=> {
+            res.send(result);
+        }
+    );
+})
+
+app.post("/userContent", (req, res)=> {
+    const username = req.body.username;
+    db.query(
+        "select post.*, profile.username from post join profile where profile.profileID = post.profileID and profile.username = ? order by date desc limit 10;",
+        username,
+        (err, result)=> {
+            res.send(result);
+        }
+    )
+})
+
+
+app.post("/addPost", (req, res)=> {
+    const profileID = req.body.profileID;
+    const title = req.body.title;
+    const text = req.body.text;
+    db.query(
+        "INSERT INTO post(profileID, title, text) values(?,?,?);",
+        [profileID, title, text]
+    );
+});
+
+app.post("/getUser", (req, res)=> {
+    const username = req.body.username;
+    db.query(
+        "SELECT * FROM profile WHERE username = ?;",
+        username,
+        (err, result) => {
+            res.send(result);
         }
     );
 });

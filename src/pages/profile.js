@@ -1,22 +1,53 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from 'react-helmet'
+import '../network.css'
 import { Navigate, useParams} from 'react-router-dom'
+import Axios from "axios";
+import * as settings from '../conf/conf';
+import Content from '../components/content';
 
 function Profile() {
-    let { username } = useParams();
-    if (username == "Reconnact"){
-        return (
-            <div>
-                <Helmet>
+    let { username } = useParams()
+    const [data, setData] = useState([{
+        firstName: "",
+        lastName: "",
+        bio: "Noch keine Bio :/"
+    }]); 
+    
+    useEffect(() => {
+        for (let index = 0; index < 1; index++) {
+            Axios.post(settings.config.SERVER_URL + '/getUser', {username: username}).then((response)=> {
+                setData(response.data[0]);
+            });
+        }
+    }, []);
+    return (
+        <body>
+            <Helmet>
                 <meta charSet="utf-8" />
-                <title>TODO!</title>
-                </Helmet>
-                Profile from { username }
+                <title>{username} | Profil</title>
+            </Helmet>
+            <header className="App-header" id="App-header">
+                <div className='inner-header'>
+                    <a href='/'><h3>Social Network</h3></a>
+                </div>
+            </header>
+            <main style={{display: "block"}}>
+            <div className='profile'>
+                <div className='profileNav'>
+                    <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>
+                        <img src='/profile-pictures/profilePicture.png'/>
+                        <div style={{fontSize: "150%"}} id="username">{username}</div>
+                        <div>{data.firstName} {data.lastName}</div>
+                    </div>
+                </div>
             </div>
-        );
-    } else {
-        return <Navigate to="/error" />;
-    }
+            <div className='profilePosts' id='profilePosts'>
+                <Content account={true} username={username}/>
+            </div>
+            </main>
+        </body>
+    );
 }
 
 export default Profile;

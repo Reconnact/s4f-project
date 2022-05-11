@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import './App.css';
 import SocialNetwork from './pages/network';
-import Content from './content';
+import Content from './components/content';
+import * as settings from './conf/conf';
 
-const config = require('./conf/confDefault.json');
+
 function Login(){
   const [usernameReg, setUsernameReg] = useState('');
   const [passwordReg, setPasswordReg] = useState('');
@@ -20,7 +21,7 @@ function Login(){
   Axios.defaults.withCredentials = true;
   
   const register = () => {
-    Axios.post('http://social-ims.alpha-lab.net/api/register', {
+    Axios.post(settings.config.SERVER_URL + '/register', {
       username: usernameReg,
       password: passwordReg,
       firstName: firstNameReg,
@@ -32,7 +33,7 @@ function Login(){
   }
 
   const login = () => {
-    Axios.post('http://social-ims.alpha-lab.net/api/login', {
+    Axios.post(settings.config.SERVER_URL + '/login', {
       username: username,
       password: password,
     }).then((response)=> {
@@ -47,7 +48,7 @@ function Login(){
   }
 
     useEffect(()=> {
-      Axios.get("http://social-ims.alpha-lab.net/api/login").then((response) =>{
+      Axios.get(settings.config.SERVER_URL + '/login').then((response) =>{
         if (response.data.loggedIn === true){
           setLoginStatus(response.data.user[0].username);
           network();
@@ -56,18 +57,19 @@ function Login(){
     }, []);
 
     const network = () => {
-      Axios.get("http://social-ims.alpha-lab.net/api/login").then((response) =>{
+      Axios.get(settings.config.SERVER_URL + '/login').then((response) =>{
         ReactDOM.render(
           <SocialNetwork 
+          id={response.data.user[0].profileID}
           username={response.data.user[0].username} 
           firstName={response.data.user[0].firstName}
           lastName={response.data.user[0].lastName}
           bio={response.data.user[0].bio}/>,
           document.getElementById('root')
         );
-        Axios.get("http://social-ims.alpha-lab.net/api/contentNum").then((response) =>{ 
+        Axios.get(settings.config.SERVER_URL + '/contentNum').then((response) =>{ 
           ReactDOM.render(
-            <Content max={response.data[0].Max_Id}/>,
+            <Content max={response.data[0].Max_Id} account={false}/>,
             document.getElementById("feed")
           ); 
         });
