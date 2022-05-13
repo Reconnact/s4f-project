@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from 'react-helmet'
 import '../network.css'
-import { Navigate, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import Axios from "axios";
 import * as settings from '../conf/conf';
 import Content from '../components/content';
 
-function Profile() {
+function Profile(props) {
     let { username } = useParams()
-    const [data, setData] = useState([{
-        firstName: "",
-        lastName: "",
-        bio: "Noch keine Bio :/"
-    }]); 
-    
+    const [data, setData] = useState([]); 
+    if (username === props.username){
+        window.location.href=("/")
+    }
     useEffect(() => {
         for (let index = 0; index < 1; index++) {
             Axios.post(settings.config.SERVER_URL + '/getUser', {username: username}).then((response)=> {

@@ -29,8 +29,24 @@ a {
   
 .inner-header {
   width: 100%;
+  display: flex;
 }
   
+.header-search {
+  width: 28%;
+  position: sticky;
+  left: 100%;
+}
+
+.search-bar {
+  float: right;
+  padding: 6px;
+  border: 2px solid #d7e6fa;
+  border-radius: 10px;
+  font-size: 17px;
+  width: 95%;
+}
+
 main {
   display: flex;
   padding-left: 10%;

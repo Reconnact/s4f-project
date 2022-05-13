@@ -157,6 +157,17 @@ app.post("/userContent", (req, res)=> {
     )
 })
 
+app.post("/allUser", (req, res)=> {
+    const username = req.body.username;
+    db.query(
+        "select username from profile where username != ?;",
+        username,
+        (err, result)=> {
+            res.send(result);
+        }
+    )
+})
+
 
 app.post("/addPost", (req, res)=> {
     const profileID = req.body.profileID;

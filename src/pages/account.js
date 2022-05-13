@@ -5,7 +5,6 @@ import Axios from 'axios'
 import * as settings from '../conf/conf';
 import Content from '../components/content';
 
-
 class Profile extends React.Component {
   constructor(props){
     super(props);

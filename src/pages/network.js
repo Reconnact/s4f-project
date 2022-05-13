@@ -8,8 +8,19 @@ import Error from './error';
 import Edit from './edit';
 import Post from './post';
 
+function SearchBar(){
+  var val = document.getElementById("search-input").value;
+  var opts = document.getElementById('search-bar').childNodes;
+  for (var i = 0; i < opts[0].childNodes.length; i++) {
+    if (opts[0].childNodes[i].value === val) {
+      window.location.href=("/profile/" + opts[0].childNodes[i].value)
+      break;
+    }
+  }
+}
 
 function SocialNetwork(props) {
+
   return (
     <Router>
       <Helmet>
@@ -22,6 +33,10 @@ function SocialNetwork(props) {
         <header className="App-header" id="App-header">
             <div className='inner-header'>
               <a href=''><h3>Social Network</h3></a>
+              <div className='header-search'><h3>
+                <input list='search-bar' id='search-input' type="text" placeholder="Suche..." className='search-bar' onInput={SearchBar}/>
+                <datalist id="search-bar"></datalist>
+                </h3></div>
             </div>
         </header>
         <main>
@@ -40,7 +55,6 @@ function SocialNetwork(props) {
               Beitrag erstellen
             </button>
          </div>
-
         </main>
       </body>}/>
         <Route path='/post/new' element={<Post
@@ -61,7 +75,6 @@ function SocialNetwork(props) {
          bio={props.bio}/>}/>
         <Route path="*" element={<Error />}/>
       </Routes>
-      
     </Router>
     
   );

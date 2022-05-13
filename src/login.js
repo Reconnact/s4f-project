@@ -5,7 +5,7 @@ import './App.css';
 import SocialNetwork from './pages/network';
 import Content from './components/content';
 import * as settings from './conf/conf';
-
+import Datalist from './components/datalist';
 
 function Login(){
   const [usernameReg, setUsernameReg] = useState('');
@@ -67,13 +67,16 @@ function Login(){
           bio={response.data.user[0].bio}/>,
           document.getElementById('root')
         );
-        Axios.get(settings.config.SERVER_URL + '/contentNum').then((response) =>{ 
+        Axios.get(settings.config.SERVER_URL + '/contentNum').then((resp) =>{ 
           ReactDOM.render(
-            <Content max={response.data[0].Max_Id} account={false}/>,
+            <Content max={resp.data[0].Max_Id} account={false} username={response.data.user[0].username}/>,
             document.getElementById("feed")
           ); 
         });
-        
+        ReactDOM.render(
+          <Datalist username={response.data.user[0].username}/>,
+          document.getElementById("search-bar")
+        );
       });
       
       
