@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/confDefault.json');
+const settings = require('./conf/config.json');
 
 const saltRounds = 10;
 const app = express();
@@ -69,11 +69,7 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
     }
 });
 
-<<<<<<< HEAD
-app.get("/api/login", (req, res)=> {
-=======
 app.get(settings.PREFIX + "/login", (req, res)=> {
->>>>>>> a2b268ae08713981a91a9a5d10f071dc3259a6ac
     if (req.session.user) {
       res.send({loggedIn: true, user: req.session.user});
     } else {
