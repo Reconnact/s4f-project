@@ -179,7 +179,7 @@ app.post(settings.PREFIX + "/addPost", (req, res)=> {
     );
 });
 
-app.post(settings.PREFIX + ‚"/getUser", (req, res)=> {
+app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const username = req.body.username;
     db.query(
         "SELECT * FROM profile WHERE username = ?;",
