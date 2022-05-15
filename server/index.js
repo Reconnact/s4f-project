@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/config.json');
+const settings = require('./conf/confDefault.json');
 
 const saltRounds = 10;
 const app = express();
@@ -36,7 +36,7 @@ app.use(session({
     }
 }));
 
-app.post('/register', (req, res)=> {
+app.post(settings.PREFIX + '/register', (req, res)=> {
     const username = req.body.username;
     const password = req.body.password;
     const firstName = req.body.firstName;
@@ -49,7 +49,7 @@ app.post('/register', (req, res)=> {
                 if (result.length === 0){
                     bcrypt.hash(password, saltRounds, (err, hash) => {
                         if(err){
-                            console.log(err);   
+                            console.log(err);
                         }
                         db.query(
                             "INSERT INTO profile(username, password, firstName, lastName) VALUES (?,?,?,?)",
@@ -69,7 +69,11 @@ app.post('/register', (req, res)=> {
     }
 });
 
+<<<<<<< HEAD
 app.get("/api/login", (req, res)=> {
+=======
+app.get(settings.PREFIX + "/login", (req, res)=> {
+>>>>>>> a2b268ae08713981a91a9a5d10f071dc3259a6ac
     if (req.session.user) {
       res.send({loggedIn: true, user: req.session.user});
     } else {
@@ -77,13 +81,13 @@ app.get("/api/login", (req, res)=> {
     }
 });
 
-app.post('/login', (req, res) => {
+app.post(settings.PREFIX + '/login', (req, res) => {
     console.log("login requested");
     const username = req.body.username;
     const password = req.body.password;
 
     db.query(
-        "SELECT * FROM profile WHERE username = ?;",    
+        "SELECT * FROM profile WHERE username = ?;",
         username,
         (err, result) => {
             console.log(err)
@@ -96,7 +100,7 @@ app.post('/login', (req, res) => {
                         req.session.user = result;
                         res.send(result);
                     } else {
-                        res.send({message: "Falscher Benutzername oder Passwort"}); 
+                        res.send({message: "Falscher Benutzername oder Passwort"});
                     }
                 });
             } else {
@@ -106,11 +110,11 @@ app.post('/login', (req, res) => {
     );
 });
 
-app.get('/logout', (req, res) => {
+app.get(settings.PREFIX + '/logout', (req, res) => {
     //req.session.destroy();
 });
 
-app.post('/editProfile', (req, res) => {
+app.post(settings.PREFIX + '/editProfile', (req, res) => {
     const oldUsername = req.body.oldUsername;
     const username = req.body.username;
     const firstName = req.body.firstName;
@@ -127,7 +131,7 @@ app.post('/editProfile', (req, res) => {
     );
 });
 
-app.get("/contentNum", (req, res)=> {
+app.get(settings.PREFIX + "/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
@@ -137,7 +141,7 @@ app.get("/contentNum", (req, res)=> {
 });
 
 
-app.post("/content", (req, res)=> {
+app.post(settings.PREFIX + "/content", (req, res)=> {
     db.query(
         "select post.*, profile.username from post join profile where profile.profileID = post.profileID order by date desc limit 10;",
         (err, result)=> {
@@ -146,7 +150,7 @@ app.post("/content", (req, res)=> {
     );
 })
 
-app.post("/userContent", (req, res)=> {
+app.post(settings.PREFIX + "/userContent", (req, res)=> {
     const username = req.body.username;
     db.query(
         "select post.*, profile.username from post join profile where profile.profileID = post.profileID and profile.username = ? order by date desc limit 10;",
@@ -157,7 +161,7 @@ app.post("/userContent", (req, res)=> {
     )
 })
 
-app.post("/allUser", (req, res)=> {
+app.post(settings.PREFIX + "/allUser", (req, res)=> {
     const username = req.body.username;
     db.query(
         "select username from profile where username != ?;",
@@ -169,7 +173,7 @@ app.post("/allUser", (req, res)=> {
 })
 
 
-app.post("/addPost", (req, res)=> {
+app.post(settings.PREFIX + "/addPost", (req, res)=> {
     const profileID = req.body.profileID;
     const title = req.body.title;
     const text = req.body.text;
@@ -179,7 +183,7 @@ app.post("/addPost", (req, res)=> {
     );
 });
 
-app.post("/getUser", (req, res)=> {
+app.post(settings.PREFIX + ‚"/getUser", (req, res)=> {
     const username = req.body.username;
     db.query(
         "SELECT * FROM profile WHERE username = ?;",
