@@ -1,6 +1,6 @@
 {
     "CLIENT_URL": "http://localhost:3000",
-    "PREFIX": "/api",
+    "PREFIX": "",
     "DB_USER": "root",
     "DB_HOST": "localhost",
     "DB_PASSWORD": "",
