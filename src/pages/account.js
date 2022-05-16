@@ -5,7 +5,6 @@ import Axios from 'axios'
 import * as settings from '../conf/conf';
 import Content from '../components/content';
 import Header from '../components/header';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 class Profile extends React.Component {
   constructor(props){

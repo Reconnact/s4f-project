@@ -6,6 +6,8 @@ import SocialNetwork from './pages/network';
 import Content from './components/content';
 import * as settings from './conf/conf';
 import Datalist from './components/datalist';
+import Helmet from 'react-helmet';
+
 
 function Login(){
   const [usernameReg, setUsernameReg] = useState('');
@@ -82,7 +84,11 @@ function Login(){
       
     };
   return(
-    <div className="App">
+    <body className="App">
+      <Helmet>
+      <meta charSet="utf-8" />
+      <title>SocialNetwork</title>
+      </Helmet>
       <div className='login'>
         <h1>Login</h1>
         <input
@@ -132,7 +138,7 @@ function Login(){
         <button onClick={register}>Register</button><br/>
       </div>
       <h1>{loginStatus}</h1>
-    </div>
+    </body>
   );
 }
 
