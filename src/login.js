@@ -7,14 +7,10 @@ import Content from './components/content';
 import * as settings from './conf/conf';
 import Datalist from './components/datalist';
 import Helmet from 'react-helmet';
-
+import Register from './register';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function Login(){
-  const [usernameReg, setUsernameReg] = useState('');
-  const [passwordReg, setPasswordReg] = useState('');
-  const [firstNameReg, setFirstNameReg] = useState('');
-  const [lastNameReg, setLastNameReg] = useState('');
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -22,17 +18,7 @@ function Login(){
 
   Axios.defaults.withCredentials = true;
   
-  const register = () => {
-    Axios.post(settings.config.SERVER_URL + '/register', {
-      username: usernameReg,
-      password: passwordReg,
-      firstName: firstNameReg,
-      lastName: lastNameReg
-    }).then((response)=> {
-      setLoginStatus(response.data.message)
-    });
-    
-  }
+  
 
   const login = () => {
     Axios.post(settings.config.SERVER_URL + '/login', {
@@ -54,6 +40,8 @@ function Login(){
         if (response.data.loggedIn === true){
           setLoginStatus(response.data.user[0].username);
           network();
+        } else {
+          document.getElementById("loginStatus").style.color = "red";
         }
       });
     }, []);
@@ -83,62 +71,38 @@ function Login(){
       
       
     };
+    
   return(
-    <body className="App">
+    <Router>
       <Helmet>
-      <meta charSet="utf-8" />
-      <title>SocialNetwork</title>
+        <meta charSet="utf-8" />
+        <title>SocialNetwork</title>
       </Helmet>
-      <div className='login'>
-        <h1>Login</h1>
-        <input
-        type='text' 
-        placeholder='Username'
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}/><br/>
-        <input
-        type='password' 
-        placeholder='Password'
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}/><br/>
-        <button onClick={login}>Login</button>
-      </div>
-      <div className='registration'>
-        <h1>Registration</h1>
-        <label>First name</label><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setFirstNameReg(e.target.value);
-        }}
-        /><br/>
-        <label>Last name</label><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setLastNameReg(e.target.value);
-        }}
-        /><br/>
-        <label>Username</label><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setUsernameReg(e.target.value);
-        }}
-        /><br/>
-        <label>Password</label><br/>
-        <input
-        type='password' 
-        onChange={(e) => {
-          setPasswordReg(e.target.value);
-        }}
-        /><br/>
-        <button onClick={register}>Register</button><br/>
-      </div>
-      <h1>{loginStatus}</h1>
-    </body>
+      <Routes>
+      <Route path="/" element={
+      <body className="App">
+        <div className='login'>
+          <h1>Login</h1>
+          <input
+          type='text' 
+          placeholder='Username'
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}/><br/>
+          <input
+          type='password' 
+          placeholder='Password'
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}/><br/>
+          <button onClick={login}>Login</button>
+        </div><br/>
+        Oder <a style={{color: "#528ffa"}} href="/register">Registrieren?</a>
+        <h1 id='loginStatus'>{loginStatus}</h1>
+      </body>} />
+      <Route path="/register" element={<Register />}/>
+      </Routes>
+    </Router>
   );
 }
 

@@ -55,17 +55,17 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
                             "INSERT INTO profile(username, password, firstName, lastName) VALUES (?,?,?,?)",
                             [username, hash, firstName, lastName],
                             (err, result) => {
-                                console.log(err);
+                                res.send({message: "Benutzer erstellt", registered: true})
                             }
                         );
                     });
                 } else {
-                    res.send({message: "Benutzername schon vergeben"})
+                    res.send({message: "Benutzername schon vergeben", registered: false})
                 }
             }
         );
     } else {
-        res.send({message: "Bitte alle Felder ausfüllen"})
+        res.send({message: "Bitte alle Felder ausfüllen", registered: false})
     }
 });
 
@@ -96,7 +96,7 @@ app.post(settings.PREFIX + '/login', (req, res) => {
                         req.session.user = result;
                         res.send(result);
                     } else {
-                        res.send({message: "Falscher Benutzername oder Passwort"});
+                        res.send({message: "Logindaten stimmen nicht überein"});
                     }
                 });
             } else {
