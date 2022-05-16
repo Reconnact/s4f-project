@@ -4,6 +4,7 @@ import '../network.css'
 import Notification from "../components/notification";
 import Axios from "axios";
 import * as settings from '../conf/conf';
+import Header from "../components/header";
 
 function Post(props){
     const [title, setTitle] = useState('');
@@ -36,11 +37,7 @@ function Post(props){
                 <meta charSet="utf-8" />
                 <title>Beitrag erstellen</title>
             </Helmet>
-            <header className="App-header" id="App-header">
-                <div className='inner-header'>
-                    <a href='/'><h3>Social Network</h3></a>
-                </div>
-            </header>
+            <Header />
             <main>
                 <div className="createPost">
                     <div style={{width: "65%"}}>

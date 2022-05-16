@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/config.json');
+const settings = require('./conf/confDefault.json');
 
 const saltRounds = 10;
 const app = express();
@@ -127,7 +127,7 @@ app.post(settings.PREFIX + '/editProfile', (req, res) => {
     );
 });
 
-app.get(settings.PREFIX + "/contentNum", (req, res)=> {
+app.get(settings.PREFIX + "/contentNum", (req, res)=> { 
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {

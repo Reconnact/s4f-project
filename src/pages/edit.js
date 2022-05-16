@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 import '../network.css'
 import Notification from '../components/notification';
 import * as settings from '../conf/conf';
-
+import Header from '../components/header';
 
 function Edit(props) {
     const [username, setUsername] = useState(props.username);
@@ -35,11 +35,8 @@ function Edit(props) {
                 <meta charSet="utf-8" />
                 <title>{props.username} | Edit account</title>
             </Helmet>
-            <header className="App-header" id="App-header">
-                <div className='inner-header'>
-                    <a href='/'><h3>Social Network</h3></a>
-                </div>
-            </header>
+            <Header />
+            <main>
             <div className='profile'>
                 <div className='editProfile'>
                         <div style={{paddingLeft: '5%', width: '30%'}}>
@@ -77,6 +74,7 @@ function Edit(props) {
                         </div>
                 </div>
             </div>
+            </main>
             <Notification ref={notificationRef} message="Daten wurden geändert" type="success"/>
         </body>
       );

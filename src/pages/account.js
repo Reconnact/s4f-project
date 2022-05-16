@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
 import Axios from 'axios'
 import * as settings from '../conf/conf';
 import Content from '../components/content';
+import Header from '../components/header';
 
 class Profile extends React.Component {
   constructor(props){
@@ -25,11 +26,7 @@ class Profile extends React.Component {
       <meta charSet="utf-8" />
       <title>{this.props.username} | Account</title>
       </Helmet>
-      <header className="App-header" id="App-header">
-          <div className='inner-header'>
-            <a href='/'><h3>Social Network</h3></a>
-          </div>
-      </header>
+      <Header />
       <main style={{display: "block"}}>
         <div className='profile'>
           <div className='profileNav'>

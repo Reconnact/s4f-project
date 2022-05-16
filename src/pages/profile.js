@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom'
 import Axios from "axios";
 import * as settings from '../conf/conf';
 import Content from '../components/content';
+import Header from "../components/header";
 
 function Profile(props) {
     let { username } = useParams()
@@ -25,11 +26,7 @@ function Profile(props) {
                 <meta charSet="utf-8" />
                 <title>{username} | Profil</title>
             </Helmet>
-            <header className="App-header" id="App-header">
-                <div className='inner-header'>
-                    <a href='/'><h3>Social Network</h3></a>
-                </div>
-            </header>
+            <Header />
             <main style={{display: "block"}}>
             <div className='profile'>
                 <div className='profileNav'>
