@@ -107,7 +107,8 @@ app.post(settings.PREFIX + '/login', (req, res) => {
 });
 
 app.get(settings.PREFIX + '/logout', (req, res) => {
-    //req.session.destroy();
+    req.session.destroy();
+    console.log("hallo")
 });
 
 app.post(settings.PREFIX + '/editProfile', (req, res) => {
