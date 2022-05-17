@@ -32,8 +32,14 @@ function Profile(props) {
                 <div className='profileNav'>
                     <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>
                         <img src='/profile-pictures/profilePicture.png'/>
-                        <div style={{fontSize: "150%"}} id="username">{username}</div>
-                        <div>{data.firstName} {data.lastName}</div>
+                        <div style={{display: "flex"}}>
+                            <div>
+                            <div style={{fontSize: "150%"}} id="username">{username}</div>
+                            <div>{data.firstName} {data.lastName}</div>
+                            </div>
+                            <div className='description' style={{marginTop: "0", alignSelf: "center", marginLeft: "5%"}}>{data.bio}</div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

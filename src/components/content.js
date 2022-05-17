@@ -40,13 +40,15 @@ function Content(props) {
           <div className="card-body">
             <h4>{blog.title}</h4>
             <p>{blog.text}</p>
-            <a className="userLink" href={blog.redirect}><div className="user">
-              <img alt="user" id="image" src="/profile-pictures/profilePicture.png" style={{marginRight: "5%"}}/>
-              <div className="user-info">
-                <h5>{blog.author}</h5>
-                <small>{blog.date}</small>
+            <a className="userLink" href={blog.redirect}>
+              <div className="user" style={{alignItems: "center"}}>
+                <img alt="user" id="image" src="/profile-pictures/profilePicture.png" style={{marginRight: "5%", verticalAlign: "center"}}/>
+                <div className="user-info">
+                  <h5>{blog.author}</h5>
+                  <small>{blog.date}</small>
+                </div>
               </div>
-            </div></a>
+            </a>
           </div>
         </div>
       ))}
