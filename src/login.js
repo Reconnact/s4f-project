@@ -81,23 +81,35 @@ function Login(){
       <Routes>
       <Route path="/" element={
       <body className="App">
-        <div className='login'>
-          <h1>Login</h1>
-          <input
-          type='text' 
-          placeholder='Username'
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}/><br/>
-          <input
-          type='password' 
-          placeholder='Password'
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}/><br/>
-          <button onClick={login}>Login</button>
-        </div><br/>
-        Oder <a style={{color: "#528ffa"}} href="/register">Registrieren?</a>
+        <div style={{display: "flex"}}>
+          <div style={{width: "70%", marginTop: "5%"}}>
+            <div style={{alignItems: "center", display: "flex", justifyContent: "right"}}>
+              <div>
+                <h1>SocialNetwork</h1>
+                <p style={{width: "fit-content"}}>Willkommen beim SocialNetwork!&#128526;<br />
+                   Hier kannst über deine Meinungen,<br/> Erfahrungen und über dein Wissen schreiben!
+                </p>
+              </div>
+              <img src='/logo.ico' width="30%" style={{verticalAlign: "center"}}/>
+            </div>
+          </div>
+          <div className='login'>
+            <input
+            type='text' 
+            placeholder='Username'
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}/><br/>
+            <input
+            type='password' 
+            placeholder='Password'
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}/><br/>
+            <button onClick={login}>Login</button><br/><br/>
+            Oder <a style={{color: "#528ffa"}} href="/register">registrieren?</a>
+          </div>
+        </div>
         <h1 id='loginStatus'>{loginStatus}</h1>
       </body>} />
       <Route path="/register" element={<Register />}/>

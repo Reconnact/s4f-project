@@ -37,37 +37,39 @@ function Register(){
   return(
     <div className='App'>
       <div className='registration'>
+
         <h1>Registration</h1>
-        <label>First name</label><br/>
         <input
         type='text' 
         onChange={(e) => {
           setFirstNameReg(e.target.value);
         }}
+        placeholder="Vorname"
         /><br/>
-        <label>Last name</label><br/>
         <input
         type='text' 
         onChange={(e) => {
           setLastNameReg(e.target.value);
         }}
+        placeholder="Nachname"
         /><br/>
-        <label>Username</label><br/>
         <input
         type='text' 
         onChange={(e) => {
           setUsernameReg(e.target.value);
         }}
+        placeholder="Username"
         /><br/>
-        <label>Password</label><br/>
         <input
         type='password' 
         onChange={(e) => {
           setPasswordReg(e.target.value);
         }}
+        placeholder="Passwort"
         /><br/>
         <button onClick={register}>Register</button><br/>
-      </div>
+      </div><br/>
+      Oder <a style={{color: "#528ffa"}} href="/">anmelden?</a>
       <h1 id="loginStatus">{loginStatus}</h1>
     </div>
   );
