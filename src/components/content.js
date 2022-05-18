@@ -3,18 +3,36 @@ import ReactDOM from 'react-dom';
 import '../pages/network';
 import Axios from 'axios';
 import * as settings from '../conf/conf';
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function Content(props) {
   const [blogs, setBlogs] = useState([]);
   const [account, setAccount] = useState(false)
 
+
   const deletePost = (id) => {
-    console.log(id)
-    Axios.post(settings.config.SERVER_URL + '/deletePost', {id: id})
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    Swal.fire({
+      title: 'Beitrag wirklich löschen?',
+      text: "Wenn der Beitrag gelöscht ist kannst du ihn nicht wiederherstellen!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Löschen'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.post(settings.config.SERVER_URL + '/deletePost', {id: id}) 
+        Swal.fire(
+          'Gelöscht!',
+          'Dein Beitrag wurde gelöscht.',
+          'info'
+        ).then((result) => {
+          window.location.reload()
+        })
+      }
+    })
+
     
   }
   
@@ -64,13 +82,13 @@ function Content(props) {
                 </div>
               </div>
             </a>
-          </div>
+          </div>     
           {account === true &&
             <button className="deleteButton" onClick={() => deletePost(blog.id)}>🗑️</button>
           }
-        </div>
+          </div>
       ))}
-    </div>
+    </div>  
   )
 }
 

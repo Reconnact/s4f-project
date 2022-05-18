@@ -2,16 +2,16 @@ import Axios from 'axios'
 import React, { useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
-import Notification from '../components/notification';
 import * as settings from '../conf/conf';
 import Header from '../components/header';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function Edit(props) {
     const [username, setUsername] = useState(props.username);
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [bio, setBio] = useState(props.bio);
-    const notificationRef = useRef(null);
 
     const changeData = () => {
         Axios.post(settings.config.SERVER_URL + '/editProfile', {
@@ -23,10 +23,13 @@ function Edit(props) {
         }).then((response)=> {
             console.log(response);
         });
-        notificationRef.current.show();
-        setTimeout(() => {
+        Swal.fire(
+            'Daten wurden geändert!',
+            'Es könnte sein, dass du dich neu anmelden musst, um deine Änderungen zu sehen...',
+            'success'
+        ).then((response)=> {
             window.location.href=("/")
-        }, 1000);
+        })
     }
 
     return (
@@ -75,7 +78,6 @@ function Edit(props) {
                 </div>
             </div>
             </main>
-            <Notification ref={notificationRef} message="Daten wurden geändert" type="success"/>
         </body>
       );
 }
