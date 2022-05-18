@@ -26,7 +26,7 @@ h1 {
 .login {
   background-color: white;
   height: fit-content;
-  margin-top: 5%;
+  margin-top: 10%;
   padding: 2%;
   border-radius: 15px;
 }
@@ -283,6 +283,39 @@ main {
   color: #545d7a;
 }
 
+.deleteButton {
+  align-self: center;
+  margin-right: 5%;
+  background-color: white;
+  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  font-size: 16px;
+  justify-content: center;
+  padding: 1% 1%;
+
+}
+
+.deleteButton:hover,
+.deleteButton:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.deleteButton:hover {
+  transform: translateY(-1px);
+}
+
+.deleteButton:active {
+  background-color: #F0F0F1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
 .profile {
   display: flex;
   width: 100%;
@@ -293,7 +326,7 @@ main {
   display: flex;
   border-radius: 15px;
   background-color: white;
-  margin-top: 2%;
+  margin-top: 5%;
   width: 100%;
   height: 100%;
 }
@@ -308,7 +341,7 @@ main {
   display: flex;
   border-radius: 15px;
   background-color: white;
-  margin-top: 2%;
+  margin-top: 5%;
   width: 100%;
   word-wrap: break-word;
   height: 100%;

@@ -44,7 +44,7 @@ function Profile(props) {
                 </div>
             </div>
             <div className='profilePosts' id='profilePosts'>
-                <Content account={true} username={username}/>
+                <Content account={true} username={username} user={props.username}/>
             </div>
             </main>
         </body>

@@ -7,8 +7,8 @@ import Content from './components/content';
 import * as settings from './conf/conf';
 import Datalist from './components/datalist';
 import Helmet from 'react-helmet';
-import Register from './register';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+
 
 function Login(){
   const [username, setUsername] = useState('');
@@ -59,7 +59,7 @@ function Login(){
         );
         Axios.get(settings.config.SERVER_URL + '/contentNum').then((resp) =>{ 
           ReactDOM.render(
-            <Content max={resp.data[0].Max_Id} account={false} username={response.data.user[0].username}/>,
+            <Content max={resp.data[0].Max_Id} account={false} username={response.data.user[0].username} user={response.data.user[0].username}/>,
             document.getElementById("feed")
           ); 
         });
@@ -73,24 +73,22 @@ function Login(){
     };
     
   return(
-    <Router>
+    <html id='login'>
       <Helmet>
         <meta charSet="utf-8" />
         <title>SocialNetwork</title>
       </Helmet>
-      <Routes>
-      <Route path="/" element={
       <body className="App">
         <div style={{display: "flex"}}>
-          <div style={{width: "70%", marginTop: "5%"}}>
-            <div style={{alignItems: "center", display: "flex", justifyContent: "right"}}>
+          <div style={{width: "60%", marginTop: "5%"}}>
+            <div style={{alignItems: "center", display: "flex", justifyContent: "right", marginTop: "5%"}}>
               <div>
                 <h1>SocialNetwork</h1>
                 <p style={{width: "fit-content"}}>Willkommen beim SocialNetwork!&#128526;<br />
                    Hier kannst über deine Meinungen,<br/> Erfahrungen und über dein Wissen schreiben!
                 </p>
               </div>
-              <img src='/logo.ico' width="30%" style={{verticalAlign: "center"}}/>
+              <img src='/logo.ico' width="35%" style={{verticalAlign: "center"}}/>
             </div>
           </div>
           <div className='login'>
@@ -111,10 +109,8 @@ function Login(){
           </div>
         </div>
         <h1 id='loginStatus'>{loginStatus}</h1>
-      </body>} />
-      <Route path="/register" element={<Register />}/>
-      </Routes>
-    </Router>
+      </body>
+      </html>
   );
 }
 

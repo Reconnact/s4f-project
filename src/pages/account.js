@@ -50,7 +50,7 @@ class Profile extends React.Component {
           </div>
         </div>
         <div className='profilePosts' id='profilePosts'>
-          <Content account={true} username={this.props.username}/>
+          <Content account={true} username={this.props.username} user={this.props.username}/>
         </div>
       </main>
     </body>

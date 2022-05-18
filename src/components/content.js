@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import ReactDOM from 'react-dom';
 import '../pages/network';
 import Axios from 'axios';
 import * as settings from '../conf/conf';
-import { getElementError } from "@testing-library/react";
-import ReactDom from 'react-dom';
+
 
 function Content(props) {
   const [blogs, setBlogs] = useState([]);
+  const [account, setAccount] = useState(false)
+
   useEffect(() => {
     if (props.account == false){
       const response = Axios.post(settings.config.SERVER_URL + '/content');
@@ -29,6 +31,9 @@ function Content(props) {
           var t = res.data[i].date.split("T");
           setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
             author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5)}])
+          if(res.data[i].username === props.user){
+            setAccount(true)
+          }
         }
       })
     }
@@ -36,8 +41,8 @@ function Content(props) {
   return (
     <div>
       {blogs.map((blog) => (
-        <div className="card">
-          <div className="card-body">
+        <div className="card" style={{display: "flex"}}>
+          <div className="card-body" style={{width: "100%"}}>
             <h4>{blog.title}</h4>
             <p>{blog.text}</p>
             <a className="userLink" href={blog.redirect}>
@@ -50,11 +55,13 @@ function Content(props) {
               </div>
             </a>
           </div>
+          {account === true &&
+            <button className="deleteButton">🗑️</button>
+          }
         </div>
       ))}
     </div>
-  );
-
+  )
 }
 
 export default Content;
