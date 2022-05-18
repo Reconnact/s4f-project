@@ -9,6 +9,16 @@ function Content(props) {
   const [blogs, setBlogs] = useState([]);
   const [account, setAccount] = useState(false)
 
+  const deletePost = (id) => {
+    console.log(id)
+    Axios.post(settings.config.SERVER_URL + '/deletePost', {id: id})
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+    
+  }
+  
+
   useEffect(() => {
     if (props.account == false){
       const response = Axios.post(settings.config.SERVER_URL + '/content');
@@ -17,10 +27,10 @@ function Content(props) {
           var t = res.data[i].date.split("T");
           if (res.data[i].username === props.username){
             setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
-              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/account"}])
+              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/account", id: res.data[i].postID}])
           }else{
             setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
-              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/profile/" + res.data[i].username}])
+              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/profile/" + res.data[i].username, id: res.data[i].postID}])
           }
         }
       })
@@ -30,7 +40,7 @@ function Content(props) {
         for (var i = 0; i < res.data.length; i++) {
           var t = res.data[i].date.split("T");
           setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
-            author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5)}])
+            author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), id: res.data[i].postID}])
           if(res.data[i].username === props.user){
             setAccount(true)
           }
@@ -49,14 +59,14 @@ function Content(props) {
               <div className="user" style={{alignItems: "center"}}>
                 <img alt="user" id="image" src="/profile-pictures/profilePicture.png" style={{marginRight: "5%", verticalAlign: "center"}}/>
                 <div className="user-info">
-                  <h5>{blog.author}</h5>
+                  <h5 id="delete">{blog.author}</h5>
                   <small>{blog.date}</small>
                 </div>
               </div>
             </a>
           </div>
           {account === true &&
-            <button className="deleteButton">🗑️</button>
+            <button className="deleteButton" onClick={() => deletePost(blog.id)}>🗑️</button>
           }
         </div>
       ))}

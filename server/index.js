@@ -150,7 +150,7 @@ app.post(settings.PREFIX + "/content", (req, res)=> {
 app.post(settings.PREFIX + "/userContent", (req, res)=> {
     const username = req.body.username;
     db.query(
-        "select post.*, profile.username from post join profile where profile.profileID = post.profileID and profile.username = ? order by date desc limit 10;",
+        "select post.*, profile.username from post join profile where profile.profileID = post.profileID and profile.username = ? order by date desc;",
         username,
         (err, result)=> {
             res.send(result);
@@ -179,6 +179,17 @@ app.post(settings.PREFIX + "/addPost", (req, res)=> {
         [profileID, title, text]
     );
 });
+
+app.post(settings.PREFIX + "/deletePost", (req, res)=> {
+    const id = req.body.id;
+    db.query(
+        "DELETE FROM post WHERE postID = ?;",
+        id,
+        (err, result)=> {
+            res.send(result);
+        }
+    )
+})
 
 app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const username = req.body.username;
