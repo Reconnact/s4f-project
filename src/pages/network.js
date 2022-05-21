@@ -14,8 +14,8 @@ function SocialNetwork(props) {
   return (
     <Router>
       <Helmet>
-      <meta charSet="utf-8" />
-      <title>SocialNetwork</title>
+        <meta charSet="utf-8" />
+        <title>SocialNetwork</title>
       </Helmet>
       <Routes>
         <Route  path="/" element={
@@ -27,7 +27,10 @@ function SocialNetwork(props) {
           <div style={{float: "right", width: "30%", marginTop: "2%"}}>
             <div className='personalCard'>
               <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
-                <img src="/profile-pictures/profilePicture.png"/>
+                <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; 
+                  currentTarget.src="/profile-pictures/profilePicture.png";
+                }}/>
                 <div style={{fontSize: "150%"}} id="username">{props.username}</div>
                 <div>{props.firstName} {props.lastName}</div>
               </div>
@@ -42,7 +45,7 @@ function SocialNetwork(props) {
         <Route path='/post/new' element={<Post
         id={props.id}/>}/>
         <Route path="/account" element={<Account 
-         profilePicture='/profile-pictures/profilePicture.png'
+         id={props.id}
          username={props.username}
          firstName={props.firstName}
          lastName={props.lastName}
@@ -50,7 +53,7 @@ function SocialNetwork(props) {
          <Route path="/profile/:username" element={<Profile 
          username={props.username}/>}/>
          <Route path="/account/edit" element={<Edit 
-         profilePicture='/profile-pictures/profilePicture.png'
+         id={props.id}
          username={props.username}
          firstName={props.firstName}
          lastName={props.lastName}

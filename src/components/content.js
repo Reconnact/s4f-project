@@ -45,10 +45,10 @@ function Content(props) {
           var t = res.data[i].date.split("T");
           if (res.data[i].username === props.username){
             setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
-              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/account", id: res.data[i].postID}])
+              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/account", id: res.data[i].postID, profileID:  res.data[i].profileID}])
           }else{
             setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
-              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/profile/" + res.data[i].username, id: res.data[i].postID}])
+              author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/profile/" + res.data[i].username, id: res.data[i].postID, profileID:  res.data[i].profileID}])
           }
         }
       })
@@ -58,7 +58,7 @@ function Content(props) {
         for (var i = 0; i < res.data.length; i++) {
           var t = res.data[i].date.split("T");
           setBlogs((blogs) => [...blogs, {title: res.data[i].title, text: res.data[i].text,
-            author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), id: res.data[i].postID}])
+            author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), id: res.data[i].postID, profileID:  res.data[i].profileID}])
           if(res.data[i].username === props.user){
             setAccount(true)
           }
@@ -75,7 +75,10 @@ function Content(props) {
             <p>{blog.text}</p>
             <a className="userLink" href={blog.redirect}>
               <div className="user" style={{alignItems: "center"}}>
-                <img alt="user" id="image" src="/profile-pictures/profilePicture.png" style={{marginRight: "5%", verticalAlign: "center"}}/>
+                <img alt="user" id="image" src={"/profile-pictures/profilePicture" + blog.profileID + ".png"} onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; 
+                  currentTarget.src="/profile-pictures/profilePicture.png";
+                }}  style={{marginRight: "5%", verticalAlign: "center"}}/>
                 <div className="user-info">
                   <h5 id="delete">{blog.author}</h5>
                   <small>{blog.date}</small>

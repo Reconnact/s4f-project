@@ -34,7 +34,10 @@ class Profile extends React.Component {
           <div className='profileNav'>
             <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%", width: "100%"}}>
               <div style={{display: "flex"}}>
-                <img src={this.props.profilePicture}/>
+                <img src={"/profile-pictures/profilePicture" + this.props.id + ".png"} onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; 
+                  currentTarget.src="/profile-pictures/profilePicture.png";
+                }}/>
                 <div className='profileOptions'>
                   <button onClick={this.edit}>Profil bearbeiten</button><button onClick={this.logOut}>Log out</button>
                 </div>

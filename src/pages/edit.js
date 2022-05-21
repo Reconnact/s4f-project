@@ -5,13 +5,41 @@ import '../network.css'
 import * as settings from '../conf/conf';
 import Header from '../components/header';
 import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+
 
 function Edit(props) {
     const [username, setUsername] = useState(props.username);
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [bio, setBio] = useState(props.bio);
+
+    const changeProfilePicture = () => {
+        (async () => {
+
+            const { value: file } = await Swal.fire({
+              title: 'Wähle dein Profilbild aus',
+              input: 'file',
+              inputAttributes: {
+                'accept': 'image/*',
+                'aria-label': ''
+              }
+            })
+            
+            if (file) {
+              const reader = new FileReader()
+              reader.onload = (e) => {
+                Swal.fire({
+                  title: 'Dein neues Profilbild!',
+                  imageUrl: e.target.result,
+                  imageAlt: 'The uploaded picture'
+                })
+                console.log(e)
+              }
+              reader.readAsDataURL(file)
+            }
+            
+            })()
+    }
 
     const changeData = () => {
         Axios.post(settings.config.SERVER_URL + '/editProfile', {
@@ -44,10 +72,13 @@ function Edit(props) {
                 <div className='editProfile'>
                         <div style={{paddingLeft: '5%', width: '30%'}}>
                             <div className='editProfileData'>
-                                <img src={props.profilePicture}/><br/>
+                                <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; 
+                                    currentTarget.src="/profile-pictures/profilePicture.png";
+                                }}/><br/>
                                 <div className='editPicture'>
                                     <p>{props.username}</p>
-                                    <a>Profilbild ändern</a>
+                                    <a onClick={changeProfilePicture}>Profilbild ändern</a>
                                 </div>
                             </div>
                             <div className='edit'>
