@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/config.json');
+const settings = require('./conf/confDefault.json');
 
 const saltRounds = 10;
 const app = express();
@@ -55,17 +55,17 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
                             "INSERT INTO profile(username, password, firstName, lastName) VALUES (?,?,?,?)",
                             [username, hash, firstName, lastName],
                             (err, result) => {
-                                console.log(err);
+                                res.send({message: "Benutzer erstellt", registered: true})
                             }
                         );
                     });
                 } else {
-                    res.send({message: "Benutzername schon vergeben"})
+                    res.send({message: "Benutzername schon vergeben", registered: false})
                 }
             }
         );
     } else {
-        res.send({message: "Bitte alle Felder ausfüllen"})
+        res.send({message: "Bitte alle Felder ausfüllen", registered: false})
     }
 });
 
@@ -96,7 +96,7 @@ app.post(settings.PREFIX + '/login', (req, res) => {
                         req.session.user = result;
                         res.send(result);
                     } else {
-                        res.send({message: "Falscher Benutzername oder Passwort"});
+                        res.send({message: "Logindaten stimmen nicht überein"});
                     }
                 });
             } else {
@@ -107,7 +107,8 @@ app.post(settings.PREFIX + '/login', (req, res) => {
 });
 
 app.get(settings.PREFIX + '/logout', (req, res) => {
-    //req.session.destroy();
+    req.session.destroy();
+    console.log("hallo")
 });
 
 app.post(settings.PREFIX + '/editProfile', (req, res) => {
@@ -127,7 +128,7 @@ app.post(settings.PREFIX + '/editProfile', (req, res) => {
     );
 });
 
-app.get(settings.PREFIX + "/contentNum", (req, res)=> {
+app.get(settings.PREFIX + "/contentNum", (req, res)=> { 
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
@@ -149,7 +150,7 @@ app.post(settings.PREFIX + "/content", (req, res)=> {
 app.post(settings.PREFIX + "/userContent", (req, res)=> {
     const username = req.body.username;
     db.query(
-        "select post.*, profile.username from post join profile where profile.profileID = post.profileID and profile.username = ? order by date desc limit 10;",
+        "select post.*, profile.username from post join profile where profile.profileID = post.profileID and profile.username = ? order by date desc;",
         username,
         (err, result)=> {
             res.send(result);
@@ -178,6 +179,17 @@ app.post(settings.PREFIX + "/addPost", (req, res)=> {
         [profileID, title, text]
     );
 });
+
+app.post(settings.PREFIX + "/deletePost", (req, res)=> {
+    const id = req.body.id;
+    db.query(
+        "DELETE FROM post WHERE postID = ?;",
+        id,
+        (err, result)=> {
+            res.send(result);
+        }
+    )
+})
 
 app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const username = req.body.username;

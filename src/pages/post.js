@@ -1,15 +1,15 @@
 import React, {useState, useRef} from "react";
 import { Helmet } from 'react-helmet'
 import '../network.css'
-import Notification from "../components/notification";
 import Axios from "axios";
 import * as settings from '../conf/conf';
+import Header from "../components/header";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function Post(props){
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
-    const failNotificationRef = useRef(null);
-    const successNotificationRef = useRef(null);
 
 
     const post = () =>{
@@ -21,13 +21,21 @@ function Post(props){
             }).then((response)=> {
                 console.log(response);
             })
-            successNotificationRef.current.show();
-            setTimeout(() => {
+            Swal.fire(
+                'Beitrag wurde veröffentlicht!',
+                'Klicke auf OK um auf die Startseite zurückzukehren!',
+                'success'
+            ).then((response)=> {
                 window.location.href=("/")
-            }, 1000);
+            })
         }else{
-            failNotificationRef.current.show();
+            Swal.fire(
+                'Bitte alle Felder ausfüllen!',
+                '',
+                'error'
+            )
         }
+        
     }
 
     return (
@@ -36,11 +44,7 @@ function Post(props){
                 <meta charSet="utf-8" />
                 <title>Beitrag erstellen</title>
             </Helmet>
-            <header className="App-header" id="App-header">
-                <div className='inner-header'>
-                    <a href='/'><h3>Social Network</h3></a>
-                </div>
-            </header>
+            <Header />
             <main>
                 <div className="createPost">
                     <div style={{width: "65%"}}>
@@ -58,9 +62,6 @@ function Post(props){
                     </div>
                 </div>
             </main>
-            <Notification ref={failNotificationRef} message="Bitte fülle alle Felder aus" type="fail"/>
-            <Notification ref={successNotificationRef} message="Beitrag wurde veröffentlicht" type="success"/>
-
         </body>
     )
 }
