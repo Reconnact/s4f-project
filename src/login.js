@@ -6,13 +6,11 @@ import SocialNetwork from './pages/network';
 import Content from './components/content';
 import * as settings from './conf/conf';
 import Datalist from './components/datalist';
+import Helmet from 'react-helmet';
+
+
 
 function Login(){
-  const [usernameReg, setUsernameReg] = useState('');
-  const [passwordReg, setPasswordReg] = useState('');
-  const [firstNameReg, setFirstNameReg] = useState('');
-  const [lastNameReg, setLastNameReg] = useState('');
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,17 +18,7 @@ function Login(){
 
   Axios.defaults.withCredentials = true;
   
-  const register = () => {
-    Axios.post(settings.config.SERVER_URL + '/register', {
-      username: usernameReg,
-      password: passwordReg,
-      firstName: firstNameReg,
-      lastName: lastNameReg
-    }).then((response)=> {
-      setLoginStatus(response.data.message)
-    });
-    
-  }
+  
 
   const login = () => {
     Axios.post(settings.config.SERVER_URL + '/login', {
@@ -52,6 +40,8 @@ function Login(){
         if (response.data.loggedIn === true){
           setLoginStatus(response.data.user[0].username);
           network();
+        } else {
+          document.getElementById("loginStatus").style.color = "red";
         }
       });
     }, []);
@@ -69,7 +59,7 @@ function Login(){
         );
         Axios.get(settings.config.SERVER_URL + '/contentNum').then((resp) =>{ 
           ReactDOM.render(
-            <Content max={resp.data[0].Max_Id} account={false} username={response.data.user[0].username}/>,
+            <Content max={resp.data[0].Max_Id} account={false} username={response.data.user[0].username} user={response.data.user[0].username}/>,
             document.getElementById("feed")
           ); 
         });
@@ -81,58 +71,46 @@ function Login(){
       
       
     };
+    
   return(
-    <div className="App">
-      <div className='login'>
-        <h1>Login</h1>
-        <input
-        type='text' 
-        placeholder='Username'
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}/><br/>
-        <input
-        type='password' 
-        placeholder='Password'
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}/><br/>
-        <button onClick={login}>Login</button>
-      </div>
-      <div className='registration'>
-        <h1>Registration</h1>
-        <label>First name</label><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setFirstNameReg(e.target.value);
-        }}
-        /><br/>
-        <label>Last name</label><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setLastNameReg(e.target.value);
-        }}
-        /><br/>
-        <label>Username</label><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setUsernameReg(e.target.value);
-        }}
-        /><br/>
-        <label>Password</label><br/>
-        <input
-        type='password' 
-        onChange={(e) => {
-          setPasswordReg(e.target.value);
-        }}
-        /><br/>
-        <button onClick={register}>Register</button><br/>
-      </div>
-      <h1>{loginStatus}</h1>
-    </div>
+    <html id='login'>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>SocialNetwork</title>
+      </Helmet>
+      <body className="App">
+        <div style={{display: "flex"}}>
+          <div style={{width: "60%", marginTop: "5%"}}>
+            <div style={{alignItems: "center", display: "flex", justifyContent: "right", marginTop: "5%"}}>
+              <div>
+                <h1>SocialNetwork</h1>
+                <p style={{width: "fit-content"}}>Willkommen beim SocialNetwork!&#128526;<br />
+                   Hier kannst über deine Meinungen,<br/> Erfahrungen und über dein Wissen schreiben!
+                </p>
+              </div>
+              <img src='/logo.ico' width="35%" style={{verticalAlign: "center"}}/>
+            </div>
+          </div>
+          <div className='login'>
+            <input
+            type='text' 
+            placeholder='Username'
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}/><br/>
+            <input
+            type='password' 
+            placeholder='Password'
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}/><br/>
+            <button onClick={login}>Login</button><br/><br/>
+            Oder <a style={{color: "#528ffa"}} href="/register">registrieren?</a>
+          </div>
+        </div>
+        <h1 id='loginStatus'>{loginStatus}</h1>
+      </body>
+      </html>
   );
 }
 

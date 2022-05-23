@@ -7,45 +7,30 @@ import Profile from './profile';
 import Error from './error';
 import Edit from './edit';
 import Post from './post';
-
-function SearchBar(){
-  var val = document.getElementById("search-input").value;
-  var opts = document.getElementById('search-bar').childNodes;
-  for (var i = 0; i < opts[0].childNodes.length; i++) {
-    if (opts[0].childNodes[i].value === val) {
-      window.location.href=("/profile/" + opts[0].childNodes[i].value)
-      break;
-    }
-  }
-}
+import Header  from '../components/header';
 
 function SocialNetwork(props) {
 
   return (
     <Router>
       <Helmet>
-      <meta charSet="utf-8" />
-      <title>SocialNetwork</title>
+        <meta charSet="utf-8" />
+        <title>SocialNetwork</title>
       </Helmet>
       <Routes>
         <Route  path="/" element={
         <body>
-        <header className="App-header" id="App-header">
-            <div className='inner-header'>
-              <a href=''><h3>Social Network</h3></a>
-              <div className='header-search'><h3>
-                <input list='search-bar' id='search-input' type="text" placeholder="Suche..." className='search-bar' onInput={SearchBar}/>
-                <datalist id="search-bar"></datalist>
-                </h3></div>
-            </div>
-        </header>
+        <Header />
         <main>
           <div className='feed' id='feed' >
           </div>
           <div style={{float: "right", width: "30%", marginTop: "2%"}}>
             <div className='personalCard'>
               <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
-                <img src="/profile-pictures/profilePicture.png"/>
+                <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; 
+                  currentTarget.src="/profile-pictures/profilePicture.png";
+                }}/>
                 <div style={{fontSize: "150%"}} id="username">{props.username}</div>
                 <div>{props.firstName} {props.lastName}</div>
               </div>
@@ -60,7 +45,7 @@ function SocialNetwork(props) {
         <Route path='/post/new' element={<Post
         id={props.id}/>}/>
         <Route path="/account" element={<Account 
-         profilePicture='/profile-pictures/profilePicture.png'
+         id={props.id}
          username={props.username}
          firstName={props.firstName}
          lastName={props.lastName}
@@ -68,7 +53,7 @@ function SocialNetwork(props) {
          <Route path="/profile/:username" element={<Profile 
          username={props.username}/>}/>
          <Route path="/account/edit" element={<Edit 
-         profilePicture='/profile-pictures/profilePicture.png'
+         id={props.id}
          username={props.username}
          firstName={props.firstName}
          lastName={props.lastName}

@@ -2,8 +2,9 @@ import Axios from 'axios'
 import React, { useState, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
-import Notification from '../components/notification';
 import * as settings from '../conf/conf';
+import Header from '../components/header';
+import Swal from 'sweetalert2'
 
 
 function Edit(props) {
@@ -11,7 +12,34 @@ function Edit(props) {
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [bio, setBio] = useState(props.bio);
-    const notificationRef = useRef(null);
+
+    const changeProfilePicture = () => {
+        (async () => {
+
+            const { value: file } = await Swal.fire({
+              title: 'Wähle dein Profilbild aus',
+              input: 'file',
+              inputAttributes: {
+                'accept': 'image/*',
+                'aria-label': ''
+              }
+            })
+            
+            if (file) {
+              const reader = new FileReader()
+              reader.onload = (e) => {
+                Swal.fire({
+                  title: 'Dein neues Profilbild!',
+                  imageUrl: e.target.result,
+                  imageAlt: 'The uploaded picture'
+                })
+                console.log(e)
+              }
+              reader.readAsDataURL(file)
+            }
+            
+            })()
+    }
 
     const changeData = () => {
         Axios.post(settings.config.SERVER_URL + '/editProfile', {
@@ -23,10 +51,13 @@ function Edit(props) {
         }).then((response)=> {
             console.log(response);
         });
-        notificationRef.current.show();
-        setTimeout(() => {
+        Swal.fire(
+            'Daten wurden geändert!',
+            'Es könnte sein, dass du dich neu anmelden musst, um deine Änderungen zu sehen...',
+            'success'
+        ).then((response)=> {
             window.location.href=("/")
-        }, 1000);
+        })
     }
 
     return (
@@ -35,19 +66,19 @@ function Edit(props) {
                 <meta charSet="utf-8" />
                 <title>{props.username} | Edit account</title>
             </Helmet>
-            <header className="App-header" id="App-header">
-                <div className='inner-header'>
-                    <a href='/'><h3>Social Network</h3></a>
-                </div>
-            </header>
+            <Header />
+            <main>
             <div className='profile'>
                 <div className='editProfile'>
                         <div style={{paddingLeft: '5%', width: '30%'}}>
                             <div className='editProfileData'>
-                                <img src={props.profilePicture}/><br/>
+                                <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; 
+                                    currentTarget.src="/profile-pictures/profilePicture.png";
+                                }}/><br/>
                                 <div className='editPicture'>
                                     <p>{props.username}</p>
-                                    <a>Profilbild ändern</a>
+                                    <a onClick={changeProfilePicture}>Profilbild ändern</a>
                                 </div>
                             </div>
                             <div className='edit'>
@@ -77,7 +108,7 @@ function Edit(props) {
                         </div>
                 </div>
             </div>
-            <Notification ref={notificationRef} message="Daten wurden geändert" type="success"/>
+            </main>
         </body>
       );
 }

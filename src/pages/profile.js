@@ -5,6 +5,7 @@ import {useParams} from 'react-router-dom'
 import Axios from "axios";
 import * as settings from '../conf/conf';
 import Content from '../components/content';
+import Header from "../components/header";
 
 function Profile(props) {
     let { username } = useParams()
@@ -25,23 +26,28 @@ function Profile(props) {
                 <meta charSet="utf-8" />
                 <title>{username} | Profil</title>
             </Helmet>
-            <header className="App-header" id="App-header">
-                <div className='inner-header'>
-                    <a href='/'><h3>Social Network</h3></a>
-                </div>
-            </header>
+            <Header />
             <main style={{display: "block"}}>
             <div className='profile'>
                 <div className='profileNav'>
                     <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>
-                        <img src='/profile-pictures/profilePicture.png'/>
-                        <div style={{fontSize: "150%"}} id="username">{username}</div>
-                        <div>{data.firstName} {data.lastName}</div>
+                        <img src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
+                                    currentTarget.onerror = null; 
+                                    currentTarget.src="/profile-pictures/profilePicture.png";
+                                }}/>
+                        <div style={{display: "flex"}}>
+                            <div>
+                                <div style={{fontSize: "150%"}} id="username">{username}</div>
+                                <div style={{width: "1005"}}>{data.firstName} {data.lastName}</div>
+                            </div>
+                            <div className='description' style={{marginTop: "0", alignSelf: "center", marginLeft: "5%"}}>{data.bio}</div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
             <div className='profilePosts' id='profilePosts'>
-                <Content account={true} username={username}/>
+                <Content account={true} username={username} user={props.username}/>
             </div>
             </main>
         </body>
