@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/confDefault.json');
+const settings = require('./conf/config.json');
 
 const saltRounds = 10;
 const app = express();
