@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/confDefault.json');
+const settings = require('./conf/config.json');
 
 const saltRounds = 10;
 const app = express();
@@ -128,15 +128,6 @@ app.post(settings.PREFIX + '/editProfile', (req, res) => {
     );
 });
 
-app.get(settings.PREFIX + "/contentNum", (req, res)=> { 
-    db.query(
-        "SELECT MAX(postID) AS Max_Id FROM post;",
-        (err, result) => {
-            res.send(result);
-        }
-    );
-});
-
 
 app.post(settings.PREFIX + "/content", (req, res)=> {
     db.query(
@@ -189,9 +180,19 @@ app.post(settings.PREFIX + "/deletePost", (req, res)=> {
             res.send(result);
         }
     )
-})
+});
 
-app.post(settings.PREFIX + "/getUser", (req, res)=> {
+app.get(settings.PREFIX + "/contentNum", (req, res)=> { 
+    db.query(
+        "SELECT MAX(postID) AS Max_Id FROM post;",
+        (err, result) => {
+            res.send(result);
+        }
+    );
+});
+
+
+app.get(settings.PREFIX + "/getUser", (req, res)=> {
     const username = req.body.username;
     db.query(
         "SELECT * FROM profile WHERE username = ?;",

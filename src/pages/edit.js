@@ -42,7 +42,8 @@ function Edit(props) {
     }
 
     const changeData = () => {
-        Axios.post(settings.config.SERVER_URL + '/editProfile', {
+        (async () => {
+            await Axios.post(settings.config.SERVER_URL + '/editProfile', {
             oldUsername: props.username,
             username: username,
             firstName: firstName,
@@ -51,6 +52,7 @@ function Edit(props) {
         }).then((response)=> {
             console.log(response);
         });
+        })()
         Swal.fire(
             'Daten wurden geändert!',
             'Es könnte sein, dass du dich neu anmelden musst, um deine Änderungen zu sehen...',

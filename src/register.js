@@ -37,28 +37,11 @@ function Register(){
   return(
     <div className='App'>
       <div className='registration'>
-
         <h1>Registration</h1>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setFirstNameReg(e.target.value);
-        }}
-        placeholder="Vorname"
-        /><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setLastNameReg(e.target.value);
-        }}
-        placeholder="Nachname"
-        /><br/>
-        <input
-        type='text' 
-        onChange={(e) => {
-          setUsernameReg(e.target.value);
-        }}
-        placeholder="Username"
+        <input type='text' onChange={(e) => {setFirstNameReg(e.target.value);}} placeholder="Vorname"/><br/>
+        <input type='text' onChange={(e) => {setLastNameReg(e.target.value);}} placeholder="Nachname"/><br/>
+        <input type="email" placeholder='example@email.com'/><br/>
+        <input type='text' onChange={(e) => {setUsernameReg(e.target.value);}} placeholder="Username"
         /><br/>
         <input
         type='password' 
