@@ -8,9 +8,10 @@ import Error from './error';
 import Edit from './edit';
 import Post from './post';
 import Header  from '../components/header';
+import Cookies from 'js-cookie';
 
 function SocialNetwork(props) {
-
+  
   return (
     <Router>
       <Helmet>

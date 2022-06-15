@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const settings = require('./conf/config.json');
+const settings = require('./conf/confDefault.json');
 
 const saltRounds = 10;
 const app = express();
@@ -30,7 +30,7 @@ app.use(session({
     key: "userId",
     secret: settings.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie : {
         maxAge : 60000 * 60
     }
@@ -78,7 +78,6 @@ app.get(settings.PREFIX + "/login", (req, res)=> {
 });
 
 app.post(settings.PREFIX + '/login', (req, res) => {
-    console.log("login requested");
     const username = req.body.username;
     const password = req.body.password;
 
@@ -94,6 +93,7 @@ app.post(settings.PREFIX + '/login', (req, res) => {
                 bcrypt.compare(password, result[0].password, (error, response) =>{
                     if(response){
                         req.session.user = result;
+                        req.session.username = result[0].username;
                         res.send(result);
                     } else {
                         res.send({message: "Logindaten stimmen nicht überein"});
@@ -108,7 +108,6 @@ app.post(settings.PREFIX + '/login', (req, res) => {
 
 app.get(settings.PREFIX + '/logout', (req, res) => {
     req.session.destroy();
-    console.log("hallo")
 });
 
 app.post(settings.PREFIX + '/editProfile', (req, res) => {
