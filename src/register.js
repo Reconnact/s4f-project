@@ -12,35 +12,54 @@ import './App.css';
 function Register(){
   const [usernameReg, setUsernameReg] = useState('');
   const [passwordReg, setPasswordReg] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [firstNameReg, setFirstNameReg] = useState('');
   const [lastNameReg, setLastNameReg] = useState('');
+  const [emailReg, setEmailReg] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
   Axios.defaults.withCredentials = true;
   
 
   const register = () => {
-    Axios.post(settings.config.SERVER_URL + '/register', {
-      username: usernameReg,
-      password: passwordReg,
-      firstName: firstNameReg,
-      lastName: lastNameReg
-    }).then((response)=> {
-      setLoginStatus(response.data.message)
-      if (response.data.registered === true){
-        window.location.href = ("/")
-      }else{
-        document.getElementById("loginStatus").style.color = "red";
+
+    if (passwordConfirm === passwordReg) {
+      if (validateEmail(emailReg)){
+          Axios.post(settings.config.SERVER_URL + '/register', {
+            username: usernameReg,
+            password: passwordReg,
+            firstName: firstNameReg,
+            lastName: lastNameReg,
+            email: emailReg
+          }).then((response)=> {
+            setLoginStatus(response.data.message)
+            if (response.data.registered === true){
+              window.location.href = ("/")
+            }else{
+              document.getElementById("loginStatus").style.color = "red";
+            }
+          });
+      } else {
+        setLoginStatus("Bitte gebe eine korrekte Mail-Adresse an")
       }
-    });
-    
+    } else {
+      setLoginStatus("Die Passwörter stimmen nicht überein")
+      document.getElementById("loginStatus").style.color = "red";
+    }
   }
-  return(
+
+  function validateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+      return (true)
+    } return (false)
+  }
+
+  return(   
     <div className='App'>
       <div className='registration'>
         <h1>Registration</h1>
         <input type='text' onChange={(e) => {setFirstNameReg(e.target.value);}} placeholder="Vorname"/><br/>
         <input type='text' onChange={(e) => {setLastNameReg(e.target.value);}} placeholder="Nachname"/><br/>
-        <input type="email" placeholder='example@email.com'/><br/>
+        <input type="email" onChange={(e) => {setEmailReg(e.target.value);}} placeholder='example@email.com'/><br/>
         <input type='text' onChange={(e) => {setUsernameReg(e.target.value);}} placeholder="Username"
         /><br/>
         <input
@@ -49,6 +68,13 @@ function Register(){
           setPasswordReg(e.target.value);
         }}
         placeholder="Passwort"
+        /><br/>
+        <input
+        type='password' 
+        onChange={(e) => {
+          setPasswordConfirm(e.target.value);
+        }}
+        placeholder="Passwort erneut eingeben"
         /><br/>
         <button onClick={register}>Register</button><br/>
       </div><br/>

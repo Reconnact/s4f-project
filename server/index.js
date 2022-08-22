@@ -23,6 +23,14 @@ const db = mysql.createConnection({
     password: settings.DB_PASSWORD,
     database: 's4f'
 });
+
+db.query(
+    "select * from profile;",
+    (err, result) => {
+        console.log(err)
+    }
+)
+
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -41,7 +49,8 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
     const password = req.body.password;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    if (username && password && firstName && lastName != null){
+    const email = req.body.email;
+    if (username && password && firstName && lastName && email != null){
         db.query(
             "SELECT * FROM profile WHERE username = ?",
             username,
@@ -52,8 +61,8 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
                             console.log(err);
                         }
                         db.query(
-                            "INSERT INTO profile(username, password, firstName, lastName) VALUES (?,?,?,?)",
-                            [username, hash, firstName, lastName],
+                            "INSERT INTO profile(username, password, firstName, lastName, mail) VALUES (?,?,?,?, ?)",
+                            [username, hash, firstName, lastName, email],
                             (err, result) => {
                                 res.send({message: "Benutzer erstellt", registered: true})
                             }

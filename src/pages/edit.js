@@ -5,6 +5,7 @@ import '../network.css'
 import * as settings from '../conf/conf';
 import Header from '../components/header';
 import Swal from 'sweetalert2'
+var fs = require('fs');
 
 
 function Edit(props) {
@@ -12,6 +13,8 @@ function Edit(props) {
     const [firstName, setFirstName] = useState(props.firstName);
     const [lastName, setLastName] = useState(props.lastName);
     const [bio, setBio] = useState(props.bio);
+    
+
 
     const changeProfilePicture = () => {
         (async () => {
@@ -26,7 +29,9 @@ function Edit(props) {
             })
             
             if (file) {
+
               const reader = new FileReader()
+
               reader.onload = (e) => {
                 Swal.fire({
                   title: 'Dein neues Profilbild!',
@@ -40,6 +45,8 @@ function Edit(props) {
             
             })()
     }
+
+
 
     const changeData = () => {
         (async () => {
@@ -80,7 +87,7 @@ function Edit(props) {
                                 }}/><br/>
                                 <div className='editPicture'>
                                     <p>{props.username}</p>
-                                    <a onClick={changeProfilePicture}>Profilbild ändern</a>
+                                    {/*<a onClick={changeProfilePicture}>Profilbild ändern</a>*/}
                                 </div>
                             </div>
                             <div className='edit'>

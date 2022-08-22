@@ -1,8 +1,8 @@
 {
     "CLIENT_URL": "http://localhost:3000",
     "PREFIX": "",
-    "DB_USER": "root",
-    "DB_HOST": "localhost",
-    "DB_PASSWORD": "",
+    "DB_USER": "s4f",
+    "DB_HOST": "127.0.0.1",
+    "DB_PASSWORD": "secret",
     "SESSION_SECRET": "secret"
 }
