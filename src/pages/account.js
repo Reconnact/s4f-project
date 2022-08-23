@@ -15,7 +15,6 @@ class Profile extends React.Component {
   logOut() {
     Axios.get(settings.config.SERVER_URL + '/logout');
     setTimeout(() => {window.location.href = ("/");}, 250)
-
   }
 
   edit(){

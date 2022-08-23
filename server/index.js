@@ -200,7 +200,7 @@ app.get(settings.PREFIX + "/contentNum", (req, res)=> {
 });
 
 
-app.get(settings.PREFIX + "/getUser", (req, res)=> {
+app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const username = req.body.username;
     db.query(
         "SELECT * FROM profile WHERE username = ?;",

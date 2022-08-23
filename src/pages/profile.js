@@ -17,6 +17,7 @@ function Profile(props) {
         for (let index = 0; index < 1; index++) {
             Axios.post(settings.config.SERVER_URL + '/getUser', {username: username}).then((response)=> {
                 setData(response.data[0]);
+                console.log(response)
             });
         }
     }, []);
@@ -30,17 +31,17 @@ function Profile(props) {
             <main style={{display: "block"}}>
             <div className='profile'>
                 <div className='profileNav'>
-                    <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%"}}>
+                    <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%", width: "100%"}}>
                         <img src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
                                     currentTarget.onerror = null; 
                                     currentTarget.src="/profile-pictures/profilePicture.png";
                                 }}/>
-                        <div style={{display: "flex"}}>
+                        <div style={{display: "flex", width: "100%"}}>
                             <div>
                                 <div style={{fontSize: "150%"}} id="username">{username}</div>
-                                <div style={{width: "1005"}}>{data.firstName} {data.lastName}</div>
+                                <div><p style={{margin: "0"}}>{data.firstName}&nbsp;{data.lastName}</p></div>
                             </div>
-                            <div className='description' style={{marginTop: "0", alignSelf: "center", marginLeft: "5%"}}>{data.bio}</div>
+                            <div className='description' style={{marginTop: "0", alignSelf: "center", marginLeft: "10%", width: "fit-content"}}>{data.bio}</div>
                         </div>
                         
                     </div>
