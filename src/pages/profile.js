@@ -36,7 +36,7 @@ function Profile(props) {
                 <meta charSet="utf-8" />
                 <title>{username} | Profil</title>
             </Helmet>
-            <Header id={data.profileID}/>
+            <Header id={props.id}/>
             <main style={{display: "block"}}>
             <div className='profile'>
                 <div className='profileNav'>

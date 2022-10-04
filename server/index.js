@@ -207,7 +207,7 @@ app.post(settings.PREFIX + "/userContent", (req, res)=> {
 app.post(settings.PREFIX + "/allUser", (req, res)=> {
     const id = req.body.id;
     db.query(
-        "select username from profile where profileID != ?;",
+        "select * from profile where profileID != ?;",
         id,
         (err, result)=> {
             res.send(result);

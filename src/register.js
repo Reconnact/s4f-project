@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import './App.css';
-import SocialNetwork from './pages/network';
-import Content from './components/content';
 import * as settings from './conf/conf';
-import Datalist from './components/datalist';
-import Helmet from 'react-helmet';
 import Swal from 'sweetalert2';
 
 function Register(){
