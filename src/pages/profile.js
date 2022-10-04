@@ -6,28 +6,37 @@ import Axios from "axios";
 import * as settings from '../conf/conf';
 import Content from '../components/content';
 import Header from "../components/header";
+import Loading from "../components/loading";
 
 function Profile(props) {
     let { username } = useParams()
-    const [data, setData] = useState([]); 
+    const [data, setData] = useState(); 
+    const [isLoading, setLoading] = useState(true);
+
     if (username === props.username){
-        window.location.href=("/")
+        window.location.href=("/account")
     }
     useEffect(() => {
         for (let index = 0; index < 1; index++) {
-            Axios.post(settings.config.SERVER_URL + '/getUser', {username: username}).then((response)=> {
-                setData(response.data[0]);
+            Axios.post(settings.config.SERVER_URL + '/getUserByUsername', {username: username}).then((response)=> {
                 console.log(response)
+                setData(response.data[0]);
+                setLoading(false)
             });
         }
     }, []);
+
+    if (isLoading) {
+        return <Loading />
+    }
+    
     return (
         <body>
             <Helmet>
                 <meta charSet="utf-8" />
                 <title>{username} | Profil</title>
             </Helmet>
-            <Header />
+            <Header id={data.profileID}/>
             <main style={{display: "block"}}>
             <div className='profile'>
                 <div className='profileNav'>

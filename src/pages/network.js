@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
+import Axios from 'axios'
+import * as settings from '../conf/conf';
 import { Helmet } from 'react-helmet'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '../network.css';
@@ -8,10 +10,31 @@ import Error from './error';
 import Edit from './edit';
 import Post from './post';
 import Header  from '../components/header';
-import Cookies from 'js-cookie';
+import Content from '../components/content';
+import ChangePassword from './changePassword';
+import ChangePicture from './changePicture';
+import Loading from '../components/loading';
 
 function SocialNetwork(props) {
-  
+  const [data, setData] = useState();
+  const [isLoading, setLoading] = useState(true);
+    
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    Axios.post(settings.config.SERVER_URL + '/getUser', {id: props.id})
+      .then((response) => {
+        setData(response.data[0])
+        setLoading(false)
+    });
+  }
+
+  if (isLoading) {
+    return <Loading />
+  }
+
   return (
     <Router>
       <Helmet>
@@ -20,51 +43,39 @@ function SocialNetwork(props) {
       </Helmet>
       <Routes>
         <Route  path="/" element={
-        <body>
-        <Header />
-        <main>
-          <div className='feed' id='feed' >
-          </div>
-          <div style={{float: "right", width: "30%", marginTop: "2%"}}>
-            <div className='personalCard'>
-              <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
-                <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; 
-                  currentTarget.src="/profile-pictures/profilePicture.png";
-                }}/>
-                <div style={{fontSize: "150%"}} id="username">{props.username}</div>
-                <div>{props.firstName} {props.lastName}</div>
+          <body>
+            <Header id={data.profileID}/>
+            <main>
+              <div className='feed' id='feed' >
+                < Content max={50} account={false} username={data.username} user={data.username}/>
               </div>
-              </a>
-            </div>
-            <button className='addPostButton' onClick={()=> {window.location.href = "post/new"}}>
-              Beitrag erstellen
-            </button>
-         </div>
-        </main>
-      </body>}/>
-        <Route path='/post/new' element={<Post
-        id={props.id}/>}/>
-        <Route path="/account" element={<Account 
-         id={props.id}
-         username={props.username}
-         firstName={props.firstName}
-         lastName={props.lastName}
-         bio={props.bio}/>}/>
-         <Route path="/profile/:username" element={<Profile 
-         username={props.username}/>}/>
-         <Route path="/account/edit" element={<Edit 
-         id={props.id}
-         username={props.username}
-         firstName={props.firstName}
-         lastName={props.lastName}
-         bio={props.bio}/>}/>
+              <div style={{float: "right", width: "30%", marginTop: "2%"}}>
+                <div className='personalCard'>
+                  <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
+                  <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; 
+                    currentTarget.src="/profile-pictures/profilePicture.png";
+                  }}/>
+                  <div style={{fontSize: "150%"}} id="username">{data.username}</div>
+                  <div id="name">{data.firstName} {data.lastName}</div>
+                </div>
+                </a>
+                </div>
+                <button className='addPostButton' onClick={()=> {window.location.href = "post/new"}}>
+                  Beitrag erstellen
+                </button>
+              </div>
+            </main></body>}/>
+        <Route path='/post/new' element={<Post id={props.id}/>}/>
+        <Route path="/account" element={<Account id={props.id}/>}/>
+        <Route path="/profile/:username" element={<Profile username={props.username}/>}/>
+        <Route path="/account/edit" element={<Edit id={props.id}/>}/>
+        <Route path="/account/changePassword" element={<ChangePassword id={props.id}/>}/>
+        <Route path="/account/changePicture" element={<ChangePicture id={props.id} username={props.username}/>}/>
         <Route path="*" element={<Error />}/>
       </Routes>
     </Router>
-    
   );
-
 }
 
 export default SocialNetwork;

@@ -1,49 +1,43 @@
 import Axios from 'axios'
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import '../network.css'
 import * as settings from '../conf/conf';
 import Header from '../components/header';
 import Swal from 'sweetalert2'
-var fs = require('fs');
-
+import Loading from '../components/loading'
 
 function Edit(props) {
-    const [username, setUsername] = useState(props.username);
-    const [firstName, setFirstName] = useState(props.firstName);
-    const [lastName, setLastName] = useState(props.lastName);
-    const [bio, setBio] = useState(props.bio);
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [bio, setBio] = useState('');
+    const [data, setData] = useState();
+    const [isLoading, setLoading] = useState(true);
+    const [changed, setChanged] = useState(false)
     
+    useEffect(() => {
+        getData();
+    }, []);
 
+    const getData = () => {
+        Axios.post(settings.config.SERVER_URL + '/getUser', {id: props.id})
+        .then((response) => {
+            setUsername(response.data[0].username)
+            setFirstName(response.data[0].firstName)
+            setLastName(response.data[0].lastName)
+            setBio(response.data[0].bio)
+            setData(response.data[0])
+            setLoading(false)
+        });
+    }
+
+    const changePassword = () => {
+        window.location.href = "/account/changePassword"
+    }
 
     const changeProfilePicture = () => {
-        (async () => {
-
-            const { value: file } = await Swal.fire({
-              title: 'Wähle dein Profilbild aus',
-              input: 'file',
-              inputAttributes: {
-                'accept': 'image/*',
-                'aria-label': ''
-              }
-            })
-            
-            if (file) {
-
-              const reader = new FileReader()
-
-              reader.onload = (e) => {
-                Swal.fire({
-                  title: 'Dein neues Profilbild!',
-                  imageUrl: e.target.result,
-                  imageAlt: 'The uploaded picture'
-                })
-                console.log(e)
-              }
-              reader.readAsDataURL(file)
-            }
-            
-            })()
+        window.location.href = "/account/changePicture"
     }
 
 
@@ -51,69 +45,82 @@ function Edit(props) {
     const changeData = () => {
         (async () => {
             await Axios.post(settings.config.SERVER_URL + '/editProfile', {
-            oldUsername: props.username,
+            oldUsername: data.username,
             username: username,
             firstName: firstName,
             lastName: lastName,
             bio: bio
         }).then((response)=> {
-            console.log(response);
+            Swal.fire(
+                response.data[0],
+                response.data[1],
+                response.data[2]
+            ).then((res)=> {
+                if (response.data[2] === "success"){
+                    window.location.href=("/")
+                }
+            })
         });
         })()
-        Swal.fire(
-            'Daten wurden geändert!',
-            'Es könnte sein, dass du dich neu anmelden musst, um deine Änderungen zu sehen...',
-            'success'
-        ).then((response)=> {
-            window.location.href=("/")
-        })
+    }
+
+    if (isLoading) {
+        return <Loading />;
+      }
+
+    if (changed){
+        const button = document.getElementById("changeData").disabled = false;
     }
 
     return (
         <body>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>{props.username} | Edit account</title>
+                <title>{data.username} | Edit account</title>
             </Helmet>
-            <Header />
+            <Header id={data.profileID}/>
             <main>
             <div className='profile'>
                 <div className='editProfile'>
-                        <div style={{paddingLeft: '5%', width: '30%'}}>
+                        <div style={{paddingLeft: '5%', width: '40%'}}>
                             <div className='editProfileData'>
-                                <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                                <img src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
                                     currentTarget.onerror = null; 
                                     currentTarget.src="/profile-pictures/profilePicture.png";
                                 }}/><br/>
                                 <div className='editPicture'>
-                                    <p>{props.username}</p>
-                                    {/*<a onClick={changeProfilePicture}>Profilbild ändern</a>*/}
+                                    <p>{data.username}</p>
+                                    <a onClick={changeProfilePicture}>Profilbild ändern</a>
                                 </div>
                             </div>
                             <div className='edit'>
                                 <label className='editText'>Username:</label>
-                                <div><input type="text" placeholder={props.username}
-                                onChange={(e) => {setUsername(e.target.value)}}
-                                defaultValue={props.username}/></div>
+                                <div><input maxLength={45} type="text" placeholder={data.username}
+                                onChange={(e) => {setUsername(e.target.value); setChanged(true)}}
+                                defaultValue={data.username}/></div>
                             </div>
                             <div className='edit'>
-                                <div className='editText'>Vorname:</div>
-                                <div><input type="text" placeholder={props.firstName}
-                                onChange={(e) => {setFirstName(e.target.value)}}
-                                defaultValue={props.firstName}/></div>
+                                <label className='editText'>Vorname:</label>
+                                <div><input type="text" maxLength={100} placeholder={data.firstName}
+                                onChange={(e) => {setFirstName(e.target.value); setChanged(true)}}
+                                defaultValue={data.firstName}/></div>
                             </div>
                             <div className='edit'>
-                                <div className='editText'>Nachname: </div>
-                                <div><input type="text" placeholder={props.lastName}
-                                onChange={(e) => {setLastName(e.target.value)}}
-                                defaultValue={props.lastName}/></div>
+                                <label className='editText'>Nachname: </label>
+                                <div><input type="text" maxLength={100} placeholder={data.lastName}
+                                onChange={(e) => {setLastName(e.target.value); setChanged(true)}}
+                                defaultValue={data.lastName}/></div>
                             </div>
-                            <div className='edit'>
-                                <div className='editText'>Profil-Bio: </div>
-                                <textarea
-                                onChange={(e) => {setBio(e.target.value)}}>{props.bio}</textarea>
+                            <div className='edit' style={{height: "25%", marginBottom: "5%"}}>
+                                <label className='editText' >Profil-Bio: </label>
+                                <textarea maxLength={150}
+                                onChange={(e) => {setBio(e.target.value); setChanged(true)}}>{data.bio}</textarea>
                             </div>
-                            <button onClick={changeData}>Daten ändern</button>
+                            <div style={{justifyContent: "space-between", display: "flex"}}>
+                            <button onClick={() =>{window.location.href = "/account"}}>Zurück</button>
+                                <button onClick={changeData} disabled id="changeData">Daten ändern</button>
+                                <button onClick={changePassword}>Passwort ändern</button>
+                            </div>
                         </div>
                 </div>
             </div>

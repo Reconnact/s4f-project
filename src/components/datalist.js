@@ -6,7 +6,7 @@ function Datalist(props) {
     const [users, setUser] = useState([]);
 
     useEffect(()=> {
-        const response = Axios.post(settings.config.SERVER_URL + '/allUser', {username: props.username});
+        const response = Axios.post(settings.config.SERVER_URL + '/allUser', {id: props.id});
         response.then((res) => {
             for (let index = 0; index < res.data.length; index++) {
                 setUser((users) => [...users, {username: res.data[index].username}])

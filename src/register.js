@@ -7,7 +7,7 @@ import Content from './components/content';
 import * as settings from './conf/conf';
 import Datalist from './components/datalist';
 import Helmet from 'react-helmet';
-import './App.css';
+import Swal from 'sweetalert2';
 
 function Register(){
   const [usernameReg, setUsernameReg] = useState('');
@@ -16,7 +16,6 @@ function Register(){
   const [firstNameReg, setFirstNameReg] = useState('');
   const [lastNameReg, setLastNameReg] = useState('');
   const [emailReg, setEmailReg] = useState('');
-  const [loginStatus, setLoginStatus] = useState('');
   Axios.defaults.withCredentials = true;
   
 
@@ -31,19 +30,28 @@ function Register(){
             lastName: lastNameReg,
             email: emailReg
           }).then((response)=> {
-            setLoginStatus(response.data.message)
+            Swal.fire(
+              response.data.message,
+              "",
+              response.data.status
+            )
             if (response.data.registered === true){
               window.location.href = ("/")
-            }else{
-              document.getElementById("loginStatus").style.color = "red";
             }
           });
       } else {
-        setLoginStatus("Bitte gebe eine korrekte Mail-Adresse an")
+        Swal.fire(
+          "Bitte gebe eine korrekte Mail-Adresse an",
+          "",
+          "error"
+        )
       }
     } else {
-      setLoginStatus("Die Passwörter stimmen nicht überein")
-      document.getElementById("loginStatus").style.color = "red";
+      Swal.fire(
+        "Die Passwörter stimmen nicht überein",
+        "",
+        "error"
+      )
     }
   }
 
@@ -76,10 +84,9 @@ function Register(){
         }}
         placeholder="Passwort erneut eingeben"
         /><br/>
-        <button onClick={register}>Register</button><br/>
+        <button className="button" onClick={register}>Register</button><br/>
       </div><br/>
-      Oder <a style={{color: "#528ffa"}} href="/">anmelden?</a>
-      <h1 id="loginStatus">{loginStatus}</h1>
+      Hast du bereits einen Account? <a style={{color: "#528ffa"}} href="/">Anmelden</a><br/>
     </div>
   );
 }

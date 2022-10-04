@@ -1,4 +1,5 @@
 import React from "react";
+import Datalist from "./datalist";
 
 function SearchBar(){
     var val = document.getElementById("search-input").value;
@@ -11,14 +12,14 @@ function SearchBar(){
     }
 }
 
-function Header() {
+function Header(props) {
     return (
         <header className="App-header" id="App-header">
             <div className='inner-header'>
               <a href='/'><h3>Social Network</h3></a>
               <div className='header-search'><h3>
                 <input list='search-bar' id='search-input' type="text" placeholder="Suche..." className='search-bar' onInput={SearchBar}/>
-                <datalist id="search-bar"></datalist>
+                <datalist id="search-bar"><Datalist id={props.id}/></datalist>
                 </h3></div>
             </div>
         </header>
