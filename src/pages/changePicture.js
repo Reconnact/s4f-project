@@ -25,7 +25,7 @@ function ChangePassword(props){
                         <span>Profilbild hochladen:   </span>  
                         <input type="file" name="mypic" required/>
                         <input type="submit" value="submit" style={{width: "auto"}}/> 
-                        <input type="button" value="Back" />
+                        <input type="button" onClick={(e) => {window.location.href = "/account/edit"}} value="Back" />
                     </form>
                     
                 </div>
