@@ -524,3 +524,20 @@ button:hover {
   font-size: 1.5vw;
 }
 
+
+.roundEditButton {
+  position: absolute; 
+  background: white; 
+  border: none; 
+  cursor: pointer;
+  font-size: 1.2vw; 
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  top: 0;
+  right: 0;
+}
+
+.profilePicture {
+  object-fit: cover;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

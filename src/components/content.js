@@ -75,7 +75,8 @@ function Content(props) {
             <p>{blog.text}</p>
             <a className="userLink" href={blog.redirect}>
               <div className="user" style={{alignItems: "center"}}>
-                <img alt="user" id="image" src={"/profile-pictures/profilePicture" + blog.profileID + ".png"} onError={({ currentTarget }) => {
+                <img className='profilePicture' 
+                  alt="user" id="image" src={"/profile-pictures/profilePicture" + blog.profileID + ".png"} onError={({ currentTarget }) => {
                   currentTarget.onerror = null; 
                   currentTarget.src="/profile-pictures/profilePicture.png";
                 }}  style={{marginRight: "5%", verticalAlign: "center"}}/>

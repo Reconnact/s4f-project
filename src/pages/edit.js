@@ -84,7 +84,8 @@ function Edit(props) {
                 <div className='editProfile'>
                         <div style={{paddingLeft: '5%', width: '40%'}}>
                             <div className='editProfileData'>
-                                <img src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
+                                <img className='profilePicture' 
+                                    style={{paddingBottom: "0"}} src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
                                     currentTarget.onerror = null; 
                                     currentTarget.src="/profile-pictures/profilePicture.png";
                                 }}/><br/>

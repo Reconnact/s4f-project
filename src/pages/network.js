@@ -52,7 +52,8 @@ function SocialNetwork(props) {
               <div style={{float: "right", width: "30%", marginTop: "2%"}}>
                 <div className='personalCard'>
                   <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
-                  <img src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                  <img className='profilePicture' 
+                    src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
                     currentTarget.onerror = null; 
                     currentTarget.src="/profile-pictures/profilePicture.png";
                   }}/>

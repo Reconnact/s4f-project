@@ -46,7 +46,8 @@ function Profile(props) {
           <div className='profileNav'>
             <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%", width: "100%"}}>
               <div style={{display: "flex"}}>
-                <img src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
+                <img className='profilePicture' 
+                  src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
                   currentTarget.onerror = null; 
                   currentTarget.src="/profile-pictures/profilePicture.png";
                 }}/>

@@ -33,12 +33,15 @@ function Header(props) {
   const formatResult = (item) => {
     return (
       <>
-        <span style={{ display: 'flex', textAlign: 'left' }}>
-          <img style={{width: "10%", borderRadius: "100px"}} src={"/profile-pictures/profilePicture" + item.id + ".png"} onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; 
-                    currentTarget.src="/profile-pictures/profilePicture.png";
-                  }}/>
-          <div><h5 style={{margin: 0}}>{item.name}</h5><h5 style={{margin: 0, color: "#8E8E8E"}}>{item.firstName} {item.lastName}</h5></div></span>
+        <span><a href={"/profile/" + item.name} style={{ display: 'flex', textAlign: 'left', alignContent: "space-evenly"}}>
+          <img className='profilePicture'  
+            style={{width: "12%", borderRadius: "100%", boxShadow: "none"}} 
+            src={"/profile-pictures/profilePicture" + item.id + ".png"} onError={({ currentTarget }) => {
+            currentTarget.onerror = null; 
+            currentTarget.src="/profile-pictures/profilePicture.png";
+          }}/>
+          <div style={{paddingLeft: "2%"}}><h5 style={{margin: 0, verticalAlign: "middle", display: "inline"}}>{item.name}</h5><h5 style={{margin: 0, color: "#8E8E8E"}}>{item.firstName} {item.lastName}</h5></div>
+          </a></span>
       </>
     )
   }

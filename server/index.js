@@ -29,7 +29,7 @@ var storage = multer.diskStorage({
     }
 })
 
-const maxSize = 1 * 1000 * 1000;
+const maxSize = 2 * 1000 * 1000;
 
 var upload = multer({ 
     storage: storage,
