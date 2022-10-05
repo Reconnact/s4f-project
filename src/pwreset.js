@@ -31,8 +31,10 @@ function Reset(){
                 };
                 emailjs.send('service_0qp3pvb','template_ix51qon', templateParams, 'E4WstLGLwOuXEd64m')
                 .then((res) => {
-                    axios.post(settings.config.SERVER_URL + "/createLink", {token: token, id: response.data[0].profileID});
-                    setEmailSent(true)
+                    axios.post(settings.config.SERVER_URL + "/createLink", {token: token, id: response.data[0].profileID})
+                    .then(() => {
+                      setEmailSent(true)
+                    });
                 })
                 }else {
                     setStatus("Diese mail existiert nicht")

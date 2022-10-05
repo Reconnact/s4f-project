@@ -119,7 +119,7 @@ function Edit(props) {
                             </div>
                             <div style={{justifyContent: "space-between", display: "flex"}}>
                             <button onClick={() =>{window.location.href = "/account"}}>Zurück</button>
-                                <button onClick={changeData} disabled id="changeData">Daten ändern</button>
+                                <button onClick={changeData} id="changeData">Daten ändern</button>
                                 <button onClick={changePassword}>Passwort ändern</button>
                             </div>
                         </div>

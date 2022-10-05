@@ -22,7 +22,7 @@ app.use(cors({
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "../public/profile-pictures")
+        cb(null, settings.ABSOLUT_PICTURE_PATH)
     },
     filename: function (req, file, cb) {
       cb(null, "profilePicture" + id + ".png")
@@ -37,7 +37,7 @@ var upload = multer({
     fileFilter: function (req, file, cb){
         var filetypes = /jpeg|jpg|png/;
         var mimetype = filetypes.test(file.mimetype);
-        var extname = filetypes.test(path.extname(file.originalname).toLowerCase()); 
+        var extname = filetypes.test(path.extname(file.originalname).toLowerCase());         
         if (mimetype && extname) {
             return cb(null, true);
         }
@@ -45,8 +45,8 @@ var upload = multer({
     } 
 }).single("mypic"); 
 
-app.post("/uploadProfilePicture",function (req, res, next) {
-    upload(req,res,function(err) {
+app.post(settings.PREFIX + "/uploadProfilePicture",function (req, res, next) {    
+  upload(req,res,function(err) {
         if(err) {
             res.send(err)
         } else {
@@ -285,7 +285,13 @@ app.post(settings.PREFIX + "/createLink", (req, res)=> {
     const id = req.body.id;
     db.query(
         "INSERT INTO resetpassword(profileID, link) VALUES(?,?);",
-        [id, token]
+        [id, token],
+        (err, result) => {
+            if (err){
+              res.send(err);
+            }         
+            res.send(result);
+        }
     );
 });
 

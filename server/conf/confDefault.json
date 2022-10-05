@@ -4,5 +4,6 @@
     "DB_USER": "s4f",
     "DB_HOST": "127.0.0.1",
     "DB_PASSWORD": "secret",
-    "SESSION_SECRET": "secret"
+    "SESSION_SECRET": "secret",
+    "ABSOLUT_PICTURE_PATH": "../public/profile-picture"
 }

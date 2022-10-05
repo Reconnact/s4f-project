@@ -39,7 +39,7 @@ function ChangePassword(props){
             <div className='editProfile' style={{display: "flex", flexDirection: "column", textAlign: "center"}}>
                 <h1 >Profilbild ändern</h1> 
                     <form  target='invisible' action={settings.config.SERVER_URL + "/uploadProfilePicture"}
-                        enctype="multipart/form-data" method="POST" onSubmit={(e) => {window.location.href = "/account/edit"}}>
+                        enctype="multipart/form-data" method="POST">
                         <div style={{marginTop: "3%", position: "relative", width: "max-content", verticalAlign: "middle", display: "inline-block"}}>
                             <img className='profilePicture' 
                                 style={{paddingBottom: "0", width: "100px", height: "100px"}}
