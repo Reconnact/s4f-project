@@ -412,8 +412,8 @@ a:hover {
 }
 
 .profileOptions {
-  margin-top: 5%;
-  margin-left: 6%;
+  margin-top: 2.5%;
+  margin-left: 12%;
   width: 100%;
 }
 
@@ -421,7 +421,7 @@ a:hover {
   margin-right: 5%;
   background-color: gray;
   padding: 0;
-  height: 50%;
+  height: 40%;
   width: 20%;
 }
 
@@ -540,4 +540,13 @@ button:hover {
 .profilePicture {
   object-fit: cover;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+.avatar img {
+	box-sizing: border-box;
+	border: 4px white solid;
+	border-radius: 50%;
+	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+	transform: translatey(0px);
 }

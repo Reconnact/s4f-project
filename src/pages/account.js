@@ -46,19 +46,21 @@ function Profile(props) {
           <div className='profileNav'>
             <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%", width: "100%"}}>
               <div style={{display: "flex"}}>
-                <img className='profilePicture' 
-                  src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; 
-                  currentTarget.src="/profile-pictures/profilePicture.png";
-                }}/>
+                <div className="avatar">
+                  <img className='profilePicture' 
+                    src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; 
+                    currentTarget.src="/profile-pictures/profilePicture.png";
+                  }}/>
+                </div>
                 <div className='profileOptions'>
                   <button className='button' onClick={edit}>Profil bearbeiten</button><button className='button' onClick={logOut}>Log out</button>
                 </div>
               </div>
               <div style={{display: "flex"}}>
                 <div>
-                  <div style={{fontSize: "150%"}} id="username">{data.username}</div>
-                  <div>{data.firstName} {data.lastName}</div>
+                  <div style={{fontSize: "150%", width: "max-content"}}>{data.firstName} {data.lastName}</div>
+                  <div id="username">@{data.username}</div>
                 </div>
                 <div className='description' style={{marginTop: "0", alignSelf: "center", marginLeft: "5%"}}>{data.bio}</div>
               </div>
