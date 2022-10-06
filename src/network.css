@@ -154,6 +154,7 @@ h1 {
   width: 28%;
   position: sticky;
   left: 100%;
+  z-index: 1;
 }
 
 .search-bar {
@@ -549,4 +550,5 @@ button:hover {
 	border-radius: 50%;
 	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
 	transform: translatey(0px);
+  background-color: white;
 }

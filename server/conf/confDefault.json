@@ -1,9 +1,9 @@
 {
     "CLIENT_URL": "http://localhost:3000",
     "PREFIX": "",
-    "DB_USER": "s4f",
+    "DB_USER": "user",
     "DB_HOST": "127.0.0.1",
-    "DB_PASSWORD": "secret",
+    "DB_PASSWORD": "passwort",
     "SESSION_SECRET": "secret",
-    "ABSOLUT_PICTURE_PATH": "../public/profile-picture"
+    "ABSOLUT_PICTURE_PATH": "/Users/user/socialNetwork/public/profile-pictures"
 }

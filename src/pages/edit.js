@@ -90,7 +90,7 @@ function Edit(props) {
                                     currentTarget.src="/profile-pictures/profilePicture.png";
                                 }}/><br/>
                                 <div className='editPicture'>
-                                    <p>{data.username}</p>
+                                    <p>@{data.username}</p>
                                     <a onClick={changeProfilePicture}>Profilbild ändern</a>
                                 </div>
                             </div>
