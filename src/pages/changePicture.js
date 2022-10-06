@@ -22,6 +22,9 @@ function ChangePassword(props){
             }
         }
     }
+    useEffect(() => {
+        Axios.get(settings.config.SERVER_URL + '/login');
+    }, []);
 
     const buttonClick = () => {
         document.getElementById('mypic').click()

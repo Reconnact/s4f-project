@@ -45,7 +45,7 @@ var upload = multer({
     } 
 }).single("mypic"); 
 
-app.post(settings.PREFIX + "/uploadProfilePicture",function (req, res, next) {    
+app.post(settings.PREFIX + "/uploadProfilePicture",function (req, res, next) {   
   upload(req,res,function(err) {
         if(err) {
             res.send(err)
@@ -117,6 +117,7 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
 
 app.get(settings.PREFIX + "/login", (req, res)=> {
     if (req.session.user) {
+      id = req.session.user[0]["profileID"];
       res.send({loggedIn: true, user: req.session.user});
     } else {
       res.send({loggedIn: false});
