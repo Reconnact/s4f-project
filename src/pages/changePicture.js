@@ -7,7 +7,7 @@ import Header from '../components/header';
 import Swal from 'sweetalert2'
 
 function ChangePassword(props){
-
+    const id = props.id;
     const onChange = () => {
         const file = document.getElementById("mypic").files[0];
         if (file) {
@@ -43,7 +43,7 @@ function ChangePassword(props){
                         <div style={{marginTop: "3%", position: "relative", width: "max-content", verticalAlign: "middle", display: "inline-block"}}>
                             <img className='profilePicture' 
                                 style={{paddingBottom: "0", width: "100px", height: "100px"}}
-                                id='image' src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                                id='image' src={"/profile-pictures/profilePicture" + id + ".png"} onError={({ currentTarget }) => {
                                 currentTarget.onerror = null; 
                                 currentTarget.src="/profile-pictures/profilePicture.png";
                             }} />
