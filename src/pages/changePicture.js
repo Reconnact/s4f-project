@@ -43,7 +43,7 @@ function ChangePassword(props){
                         <div style={{marginTop: "3%", position: "relative", width: "max-content", verticalAlign: "middle", display: "inline-block"}}>
                             <img className='profilePicture' 
                                 style={{paddingBottom: "0", width: "100px", height: "100px"}}
-                                id='image' src={"/profile-pictures/profilePicture" + id + ".png"} onError={({ currentTarget }) => {
+                                id='image' src={"/profile-pictures/profilePicture" + props.username + ".png"} onError={({ currentTarget }) => {
                                 currentTarget.onerror = null; 
                                 currentTarget.src="/profile-pictures/profilePicture.png";
                             }} />
