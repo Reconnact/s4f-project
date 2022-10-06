@@ -8,52 +8,38 @@ const session = require('express-session');
 const settings = require('./conf/config.json');
 const path = require("path")
 var multer = require('multer');
+const formidable = require('formidable');
+var fileupload = require("express-fileupload");
+const { default: axios } = require('axios');
+var id = null;
 
 const saltRounds = 10;
 const app = express();
-var id = null;
+
 
 app.use(express.json());
+app.use (express.urlencoded({extended: true}));
 app.use(cors({
     origin: [settings.CLIENT_URL],
     methods: ["GET", "POST"],
     credentials: true
 }));
 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, settings.ABSOLUT_PICTURE_PATH)
-    },
-    filename: function (req, file, cb) {
-      cb(null, "profilePicture" + id + ".png")
-    }
-})
-
 const maxSize = 2 * 1000 * 1000;
 
-var upload = multer({ 
-    storage: storage,
-    limits: { fileSize: maxSize },
-    fileFilter: function (req, file, cb){
-        var filetypes = /jpeg|jpg|png/;
-        var mimetype = filetypes.test(file.mimetype);
-        var extname = filetypes.test(path.extname(file.originalname).toLowerCase());         
-        if (mimetype && extname) {
-            return cb(null, true);
-        }
-        cb("Error: File upload only supports the " + "following filetypes - " + filetypes);
-    } 
-}).single("mypic"); 
 
-app.post(settings.PREFIX + "/uploadProfilePicture",function (req, res, next) {   
-  upload(req,res,function(err) {
-        if(err) {
-            res.send(err)
-        } else {
-            res.send("Success, Image uploaded!")
-        }
-    })
-})
+const upload = multer({  storage: multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, settings.ABSOLUT_PICTURE_PATH);
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname);
+    }
+})})
+app.post('/stats', upload.any(), function (req, res) {
+   res.send("Updated")
+});
+
 
 const db = mysql.createConnection({
     user: settings.DB_USER,
@@ -117,7 +103,6 @@ app.post(settings.PREFIX + '/register', (req, res)=> {
 
 app.get(settings.PREFIX + "/login", (req, res)=> {
     if (req.session.user) {
-      id = req.session.user[0]["profileID"];
       res.send({loggedIn: true, user: req.session.user});
     } else {
       res.send({loggedIn: false});
@@ -140,7 +125,6 @@ app.post(settings.PREFIX + '/login', (req, res) => {
                     if(response){
                         req.session.user = result;
                         req.session.username = result[0].username;
-                        id = result[0].profileID;
                         res.send(result);
                     } else {
                         res.send({message: "Logindaten stimmen nicht überein", status: "error"});
@@ -208,7 +192,7 @@ app.post(settings.PREFIX + "/userContent", (req, res)=> {
 app.post(settings.PREFIX + "/allUser", (req, res)=> {
     const id = req.body.id;
     db.query(
-        "select * from profile where profileID != ?;",
+        "select profileID, username from profile where profileID != ?;",
         id,
         (err, result)=> {
             res.send(result);

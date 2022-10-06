@@ -6,7 +6,7 @@ import * as settings from '../conf/conf';
 import Header from '../components/header';
 import Swal from 'sweetalert2'
 
-function ChangePassword(props){
+function changePicture(props){
     const id = props.id;
     const onChange = () => {
         const file = document.getElementById("mypic").files[0];
@@ -22,9 +22,6 @@ function ChangePassword(props){
             }
         }
     }
-    useEffect(() => {
-        Axios.get(settings.config.SERVER_URL + '/login');
-    }, []);
 
     const buttonClick = () => {
         document.getElementById('mypic').click()
@@ -38,29 +35,30 @@ function ChangePassword(props){
             </Helmet>
             <Header id={props.id}/>
             <main>
-            <iframe id="invisible" name="invisible" style={{display: "none"}}></iframe>
+
+            <iframe id="invisible" name="invisible" style={{display: "none"}} ></iframe>
             <div className='editProfile' style={{display: "flex", flexDirection: "column", textAlign: "center"}}>
                 <h1 >Profilbild ändern</h1> 
-                    <form  target='invisible' action={settings.config.SERVER_URL + "/uploadProfilePicture"}
-                        enctype="multipart/form-data" method="POST">
-                        <div style={{marginTop: "3%", position: "relative", width: "max-content", verticalAlign: "middle", display: "inline-block"}}>
-                            <img className='profilePicture' 
-                                style={{paddingBottom: "0", width: "100px", height: "100px"}}
-                                id='image' src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
-                                currentTarget.onerror = null; 
-                                currentTarget.src="/profile-pictures/profilePicture.png";
+                <form id='form' target='invisible' action={settings.config.SERVER_URL + "/stats"} enctype="multipart/form-data" method="post">
+                    <div style={{marginTop: "3%", position: "relative", width: "max-content", verticalAlign: "middle", display: "inline-block"}}>
+                        <img className='profilePicture' 
+                            style={{paddingBottom: "0", width: "100px", height: "100px"}}
+                            id='image' src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                            currentTarget.onerror = null; 
+                            currentTarget.src="/profile-pictures/profilePicture.png";
                             }} />
                         <input className='roundEditButton' type="button" value="&#128394;" onClick={(e) =>{buttonClick()}}/><br/>
-                        </div><br/>
-                        <input style={{display: "none"}} type="file" name="mypic" id="mypic" required accept="image/png, image/gif, image/jpeg" onChange={(e) => {onChange()}}/>
-                        <input type="submit" value="Profilbild ändern" style={{width: "auto"}} /> 
-                        <input type="button" onClick={(e) => {window.location.href = "/account/edit"}} value="Zurück" />
-                    </form>
-                    
-                </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="mypic" class="form-control-file" name={"profilePicture" + props.id + ".png"} style={{display: "none"}} accept="image/png, image/gif, image/jpeg" onChange={(e) => {onChange()}}/>
+                        <input type="submit" value="Profilbild updaten" />     
+                        <input type="button" value="Zurück" onClick={(e) => {window.location.href = "/account/edit"}}/>            
+                    </div>
+                </form>
+            </div>
             </main>
         </body>
     )
 }
 
-export default ChangePassword;
+export default changePicture;
