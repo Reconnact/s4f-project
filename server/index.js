@@ -36,7 +36,7 @@ const upload = multer({  storage: multer.diskStorage({
         cb(null, file.fieldname);
     }
 })})
-app.post('/stats', upload.any(), function (req, res) {
+app.post(settings.PREFIX + '/stats', upload.any(), function (req, res) {
    res.send("Updated")
 });
 
@@ -192,7 +192,7 @@ app.post(settings.PREFIX + "/userContent", (req, res)=> {
 app.post(settings.PREFIX + "/allUser", (req, res)=> {
     const id = req.body.id;
     db.query(
-        "select profileID, username from profile where profileID != ?;",
+        "select profileID, username, firstName, lastName from profile where profileID != ?;",
         id,
         (err, result)=> {
             res.send(result);
