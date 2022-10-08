@@ -333,8 +333,8 @@ main {
 }
   
 .profileNav img {
-  width: 100%;
-  height: 100%;
+  width: 120px;
+  height: 120px;
   border-radius: 100%;
 }
 
@@ -547,6 +547,7 @@ button:hover {
 
 
 .avatar img {
+  object-fit: cover;
 	box-sizing: border-box;
 	border: 4px white solid;
 	border-radius: 50%;
