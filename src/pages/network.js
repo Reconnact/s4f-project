@@ -39,7 +39,7 @@ function SocialNetwork(props) {
     <Router>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>SocialNetwork</title>
+        <title>Social IMS</title>
       </Helmet>
       <Routes>
         <Route  path="/" element={

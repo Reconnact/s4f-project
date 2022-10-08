@@ -32,7 +32,7 @@ function Header(props) {
 
   const formatResult = (item) => {
     return (
-      <>
+      <div>
         <span><a href={"/profile/" + item.name} style={{ display: 'flex', textAlign: 'left', alignContent: "space-evenly"}}>
           <img className='profilePicture'  
             style={{width: "12%", borderRadius: "100%", boxShadow: "none"}} 
@@ -42,7 +42,7 @@ function Header(props) {
           }}/>
           <div style={{paddingLeft: "2%"}}><h5 style={{margin: 0, verticalAlign: "middle", display: "inline"}}>{item.name}</h5><h5 style={{margin: 0, color: "#8E8E8E"}}>{item.firstName} {item.lastName}</h5></div>
           </a></span>
-      </>
+      </div>
     )
   }
   if (loadig){
@@ -51,28 +51,27 @@ function Header(props) {
     )
   }
 
-    return (
-        <header className="App-header" id="App-header">
-            <div className='inner-header'>
-              <a href='/' style={{display: "flex", alignItems: "center"}}><h3>Social Network</h3></a>
-              <div className='header-search'><h3>
-                <ReactSearchAutocomplete
-                    items={users}
-                    fuseOptions={{ keys: ["name", "firstName", "lastName"] }}
-                    onSelect={handleOnSelect}
-                    formatResult={formatResult}
-                    showNoResultsText="Keine Resultate"
-                    placeholder='Suche...'
-                    showIcon={false}
-                    styling={{
-                      border: "2px solid #D7E6FA",
-                      hoverBackgroundColor: "#D7E6FA"
-                    }}
-                  />
-                </h3></div>
-            </div>
-        </header>
-    );
+  return (
+    <header className="App-header" id="App-header">
+      <div className='inner-header'>
+        <a href='/' style={{display: "flex", alignItems: "center"}}><h3>Social IMS</h3></a>
+        <div className='header-search'>
+          <h3><ReactSearchAutocomplete
+            items={users}
+            fuseOptions={{ keys: ["name", "firstName", "lastName"] }}
+            onSelect={handleOnSelect}
+            formatResult={formatResult}
+            showNoResultsText="Keine Resultate"
+            placeholder='Suche...'
+            showIcon={false}
+            styling={{
+              border: "2px solid #D7E6FA",
+              hoverBackgroundColor: "#D7E6FA"
+          }}/></h3>
+        </div>
+      </div>
+    </header>
+  );
 }
 
 export default Header;
