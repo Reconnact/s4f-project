@@ -235,7 +235,7 @@ app.get(settings.PREFIX + "/contentNum", (req, res)=> {
 app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const id = req.body.id;
     db.query(
-        "SELECT * FROM profile WHERE profileID = ?;",
+        "SELECT profileID, username, firstName, lastName, bio FROM profile WHERE profileID = ?;",
         id,
         (err, result) => {
             res.send(result);
@@ -246,7 +246,7 @@ app.post(settings.PREFIX + "/getUser", (req, res)=> {
 app.post(settings.PREFIX + "/getUserByUsername", (req, res)=> {
     const username = req.body.username;
     db.query(
-        "SELECT * FROM profile WHERE username = ?;",
+        "SELECT profileID, username, firstName, lastName, bio FROM profile WHERE username = ?;",
         username,
         (err, result) => {
             res.send(result);

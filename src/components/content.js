@@ -4,11 +4,11 @@ import '../pages/network';
 import Axios from 'axios';
 import * as settings from '../conf/conf';
 import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-
+import Loading from "./loading";
 function Content(props) {
   const [blogs, setBlogs] = useState([]);
   const [account, setAccount] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
 
   const deletePost = (id) => {
@@ -51,6 +51,7 @@ function Content(props) {
               author: res.data[i].username, date: t[0] + " " + t[1].slice(0, 5), redirect: "/profile/" + res.data[i].username, id: res.data[i].postID, profileID:  res.data[i].profileID}])
           }
         }
+        setLoading(false)
       })
     }else{
       const response = Axios.post(settings.config.SERVER_URL + '/userContent', {username: props.username});
@@ -63,9 +64,24 @@ function Content(props) {
             setAccount(true)
           }
         }
+        setLoading(false)
       })
     }
   }, []);
+
+  if (isLoading){
+    return(
+      <Loading />
+    )
+  }
+
+  if (blogs.length == 0 ){
+    return (
+      <div className="noContent">
+        <h4>Noch keine Beiträge erstellt</h4>
+      </div>
+    )
+  }
   return (
     <div>
       {blogs.map((blog) => (

@@ -7,6 +7,8 @@ import * as settings from '../conf/conf';
 import Content from '../components/content';
 import Header from "../components/header";
 import Loading from "../components/loading";
+import ProfileData from "../components/profileData"
+
 
 function Profile(props) {
     let { username } = useParams()
@@ -38,27 +40,10 @@ function Profile(props) {
             </Helmet>
             <Header id={props.id}/>
             <main style={{display: "block"}}>
-            <div className='profile'>
-                <div className='profileNav'>
-                    <div style={{paddingLeft: "15%", paddingRight: "15%", marginTop: "5%", marginBottom: "5%", width: "100%"}}>
-                        <img className='profilePicture' src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
-                                    currentTarget.onerror = null; 
-                                    currentTarget.src="/profile-pictures/profilePicture.png";
-                                }}/>
-                        <div style={{display: "flex", width: "100%"}}>
-                            <div>
-                                <div style={{fontSize: "150%"}} id="username">{username}</div>
-                                <div><p style={{margin: "0"}}>{data.firstName}&nbsp;{data.lastName}</p></div>
-                            </div>
-                            <div className='description' style={{marginTop: "0", alignSelf: "center", marginLeft: "10%", width: "fit-content"}}>{data.bio}</div>
-                        </div>
-                        
-                    </div>
+                <ProfileData data={data} account={false} />
+                <div className='profilePosts' id='profilePosts'>
+                    <Content account={true} username={username} user={props.username}/>
                 </div>
-            </div>
-            <div className='profilePosts' id='profilePosts'>
-                <Content account={true} username={username} user={props.username}/>
-            </div>
             </main>
         </body>
     );

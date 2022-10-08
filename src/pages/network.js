@@ -71,7 +71,7 @@ function SocialNetwork(props) {
               </div>
             </main></body>}/>
         <Route path='/post/new' element={<Post id={props.id}/>}/>
-        <Route path="/account" element={<Account id={props.id}/>}/>
+        <Route path="/account" element={<Account id={props.id} username={props.username}/>}/>
         <Route path="/profile/:username" element={<Profile username={props.username} id={props.id}/>}/>
         <Route path="/account/edit" element={<Edit id={props.id}/>}/>
         <Route path="/account/changePassword" element={<ChangePassword id={props.id}/>}/>
