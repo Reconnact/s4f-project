@@ -58,6 +58,7 @@ function Post(props){
         });
     }, []);
 
+
     if (error){
         return(
             <Error />
@@ -99,7 +100,7 @@ function Post(props){
                             </a>
                         </div>     
                     </div>
-                    <div className="comments" style={{boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)", borderRadius: "15px", padding: "3%"}} >
+                    {data.comments.length > 0 && <div className="comments" style={{boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)", borderRadius: "15px", padding: "3%"}} >
                     {data.comments.map(function(comment, i){
                         return (
                             <div>
@@ -124,7 +125,7 @@ function Post(props){
                             </div>
                         )
                     })}
-                    </div>
+                    </div>}
                 </div>
                 <div style={{float: "right", width: "30%", marginTop: "2%"}}>
                     <div className='personalCard'>
