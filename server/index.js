@@ -11,6 +11,7 @@ var multer = require('multer');
 const formidable = require('formidable');
 var fileupload = require("express-fileupload");
 const { default: axios } = require('axios');
+const { post } = require('request');
 var id = null;
 
 const saltRounds = 10;
@@ -231,7 +232,6 @@ app.get(settings.PREFIX + "/contentNum", (req, res)=> {
     );
 });
 
-
 app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const id = req.body.id;
     db.query(
@@ -315,6 +315,41 @@ app.post(settings.PREFIX + "/deleteToken", (req, res)=> {
         }
     );  
 
+});
+
+app.post(settings.PREFIX + "/getPost", (req, res)=> {
+    const postID = req.body.postID;
+    db.query(
+        "SELECT post.*, profile.username, profile.firstName, profile.lastName, profile.profileID FROM post JOIN profile ON post.profileID = profile.profileID WHERE postID = ?;",
+        postID,
+        (err, result) => {
+            res.send(result)
+        }
+    )
+});
+
+app.post(settings.PREFIX + "/getComments", (req, res)=> {
+    const postID = req.body.postID;
+    db.query(
+        "SELECT comments.*, profile.username, profile.profileID FROM comments JOIN profile ON comments.profileID = profile.profileID WHERE postID = ? order by comments.commentDate desc;",
+        postID,
+        (err, result) => {
+            res.send(result)
+        }
+    )
+});
+
+app.post(settings.PREFIX + "/postComment", (req, res)=> {
+    const postID = req.body.postID;
+    const profileID = req.body.profileID;
+    const comment = req.body.comment;
+    db.query(
+        "INSERT INTO comments(profileID, postID, comment) VALUES(?, ?, ?);",
+        [profileID, postID, comment],
+        (err, result) => {
+            res.send(result)
+        }
+    )
 });
 
 app.listen(3001, () => {

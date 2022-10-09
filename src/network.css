@@ -284,9 +284,16 @@ main {
   color: #545d7a;
 }
 
-.deleteButton {
+.postButtons {
   align-self: center;
   margin-right: 5%;
+  display: flex;
+  width: 15%;
+  justify-content: space-between;
+}
+
+.interactivePostButton {
+  align-self: center;
   background-color: white;
   border: none;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -294,22 +301,23 @@ main {
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   font-size: 16px;
   justify-content: center;
-  padding: 1% 1%;
-
+  padding: 5% 5%;
+  width: 50px;
+  height: 50px;
 }
 
-.deleteButton:hover,
-.deleteButton:focus {
+.interactivePostButton:hover,
+.interactivePostButton:focus {
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   color: rgba(0, 0, 0, 0.65);
 }
 
-.deleteButton:hover {
+.interactivePostButton:hover {
   transform: translateY(-1px);
 }
 
-.deleteButton:active {
+.interactivePostButton:active {
   background-color: #F0F0F1;
   border-color: rgba(0, 0, 0, 0.15);
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
@@ -560,3 +568,16 @@ button:hover {
   text-align: center;
 }
 
+.post {
+  width: 70%;
+  height: fit-content;
+  margin-top: 2%;
+  margin-right: 3%;
+  border-radius: 15px;
+  background-color: white;
+  padding: 2%;
+}
+
+.postTitle:hover {
+  text-decoration: underline;
+}

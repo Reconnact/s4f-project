@@ -9,6 +9,7 @@ import Profile from './profile';
 import Error from './error';
 import Edit from './edit';
 import Post from './post';
+import CreatePost from './createPost';
 import Header  from '../components/header';
 import Content from '../components/content';
 import ChangePassword from './changePassword';
@@ -34,7 +35,6 @@ function SocialNetwork(props) {
   if (isLoading) {
     return <Loading />
   }
-
   return (
     <Router>
       <Helmet>
@@ -51,26 +51,27 @@ function SocialNetwork(props) {
               </div>
               <div style={{float: "right", width: "30%", marginTop: "2%"}}>
                 <div className='personalCard'>
-                  <a href='account'><div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
-                <div className='avatar'>
-                  <img className='profilePicture' 
-                    src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
-                    currentTarget.onerror = null; 
-                    currentTarget.src="/profile-pictures/profilePicture.png";
-                  }}/>
-                  
-                  <div style={{fontSize: "150%"}} id="name">{data.firstName} {data.lastName}</div>
-                  <div  id="username">@{data.username}</div>
-                </div>
-                </div>
-                </a>
+                  <a href='account'>
+                    <div style={{paddingLeft: "15%", paddingRight: "15%", marginBottom: "5%"}}>
+                      <div className='avatar'>
+                        <img className='profilePicture' 
+                          src={"/profile-pictures/profilePicture" + props.id + ".png"} onError={({ currentTarget }) => {
+                          currentTarget.onerror = null; 
+                          currentTarget.src="/profile-pictures/profilePicture.png";
+                        }}/>
+                        <div style={{fontSize: "150%"}} id="name">{data.firstName} {data.lastName}</div>
+                        <div  id="username">@{data.username}</div>
+                      </div>
+                    </div>
+                  </a>
                 </div>
                 <button className='addPostButton' onClick={()=> {window.location.href = "post/new"}}>
                   Beitrag erstellen
                 </button>
               </div>
             </main></body>}/>
-        <Route path='/post/new' element={<Post id={props.id}/>}/>
+        <Route path='/post/:id' element={<Post id={props.id}/>}/>
+        <Route path='/post/new' element={<CreatePost id={props.id}/>}/>
         <Route path="/account" element={<Account id={props.id} username={props.username}/>}/>
         <Route path="/profile/:username" element={<Profile username={props.username} id={props.id}/>}/>
         <Route path="/account/edit" element={<Edit id={props.id}/>}/>

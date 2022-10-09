@@ -5,6 +5,7 @@ import Axios from 'axios';
 import * as settings from '../conf/conf';
 import Swal from 'sweetalert2'
 import Loading from "./loading";
+import axios from "axios";
 function Content(props) {
   const [blogs, setBlogs] = useState([]);
   const [account, setAccount] = useState(false)
@@ -17,8 +18,8 @@ function Content(props) {
       text: "Wenn der Beitrag gelöscht ist kannst du ihn nicht wiederherstellen!",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Löschen'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -37,8 +38,8 @@ function Content(props) {
   }
   
 
-  useEffect(() => {
-    if (props.account == false){
+  useEffect( () => {
+     if (props.account == false){
       const response = Axios.post(settings.config.SERVER_URL + '/content');
       response.then((res) => {
         for (var i = 0; i < res.data.length; i++) {
@@ -54,7 +55,7 @@ function Content(props) {
         setLoading(false)
       })
     }else{
-      const response = Axios.post(settings.config.SERVER_URL + '/userContent', {username: props.username});
+      const response =  Axios.post(settings.config.SERVER_URL + '/userContent', {username: props.username});
       response.then((res) => {
         for (var i = 0; i < res.data.length; i++) {
           var t = res.data[i].date.split("T");
@@ -67,7 +68,9 @@ function Content(props) {
         setLoading(false)
       })
     }
+
   }, []);
+
 
   if (isLoading){
     return(
@@ -87,7 +90,7 @@ function Content(props) {
       {blogs.map((blog) => (
         <div className="card" style={{display: "flex"}}>
           <div className="card-body" style={{width: "100%"}}>
-            <h4>{blog.title}</h4>
+            <a href={"/post/" + blog.id} className="postTitle"><h4>{blog.title}</h4></a>
             <p>{blog.text}</p>
             <a className="userLink" href={blog.redirect}>
               <div className="user" style={{alignItems: "center"}}>
@@ -103,10 +106,13 @@ function Content(props) {
               </div>
             </a>
           </div>     
-          {account === true &&
-            <button className="deleteButton" onClick={() => deletePost(blog.id)}>🗑️</button>
-          }
+          <div className="postButtons">
+            <button className="interactivePostButton" onClick={() =>{ window.location.href = "/post/" + blog.id}}><img src="/commentIcon.png" style={{width: "100%"}}/></button>
+            {account === true &&
+              <button className="interactivePostButton" onClick={() => deletePost(blog.id)}><img src="/deleteIcon.png" style={{width: "100%"}}/></button>
+            }
           </div>
+        </div>
       ))}
     </div>  
   )

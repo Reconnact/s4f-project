@@ -7,6 +7,7 @@ import * as settings from '../conf/conf';
 import Content from '../components/content';
 import Header from "../components/header";
 import Loading from "../components/loading";
+import Error from "./error";
 import ProfileData from "../components/profileData"
 
 
@@ -21,7 +22,6 @@ function Profile(props) {
     useEffect(() => {
         for (let index = 0; index < 1; index++) {
             Axios.post(settings.config.SERVER_URL + '/getUserByUsername', {username: username}).then((response)=> {
-                console.log(response)
                 setData(response.data[0]);
                 setLoading(false)
             });
@@ -30,6 +30,10 @@ function Profile(props) {
 
     if (isLoading) {
         return <Loading />
+    }
+
+    if (!isLoading && data === undefined){
+        return <Error />
     }
     
     return (

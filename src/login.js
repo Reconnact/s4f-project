@@ -75,7 +75,7 @@ function Login(){
     <html id='login'>
           <Helmet>
             <meta charSet="utf-8" />
-            <title>SocialNetwork</title>
+            <title>Social IMS</title>
           </Helmet>
           <body className="App">
             <div style={{display: "flex"}}>
