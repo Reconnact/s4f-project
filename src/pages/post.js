@@ -43,13 +43,14 @@ function Post(props){
     }
 
     useEffect(() => {
+
         Axios.post(settings.config.SERVER_URL + "/getPost", {postID: id}).then((result) => {
             var postDate = result.data[0].date.split("T");
             if (result.data[0] !== undefined){
                 Axios.post(settings.config.SERVER_URL + "/getComments", {postID: id}).then((res) => {
                     var post = {post: result.data[0], comments: res.data, postDate: postDate[0] + " " + postDate[1].slice(0, 5)}
                     setData(post)
-                    setLoading(false)
+                    setLoading(false) 
                 })
             } else {
                 setError(true)
@@ -71,6 +72,7 @@ function Post(props){
         )
     }
 
+    if (!isLoading && data !== undefined){
     return(
         <body>
         <Helmet>
@@ -153,6 +155,11 @@ function Post(props){
         </main>
     </body>
     )
+    } else {
+        return (
+            <Loading />
+        )
+    }
 }
 
 export default Post;
