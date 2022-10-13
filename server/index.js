@@ -442,6 +442,17 @@ app.post(settings.PREFIX + "/switchFollowing", (req, res) => {
     }
 })
 
+app.post(settings.PREFIX + "/newFollowers", (req, res) => {
+    const profileID = req.body.profileID;
+    db.query(
+        "select profile.username, profile.profileID, followers.date from followers join profile on profile.profileID = followers.followerID where followers.profileID = ? order by date desc limit 5;",
+        profileID,
+        (err, result) => {
+            res.send(result)
+        }
+    )
+})
+
 app.listen(3001, () => {
     console.log("running");
 });

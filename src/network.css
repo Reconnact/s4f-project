@@ -585,3 +585,10 @@ button:hover {
 .networkEntry:hover {
   text-decoration: underline;
 }
+
+.newFollower {
+  margin-top: 5%;
+  border-radius: 15px;
+  background-color: white;
+  padding: 4%;
+}

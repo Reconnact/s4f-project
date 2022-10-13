@@ -19,6 +19,7 @@ import Follower from './follower';
 
 function SocialNetwork(props) {
   const [data, setData] = useState();
+  const [newFollowers, setNewFollowers] = useState();
   const [isLoading, setLoading] = useState(true);
     
   useEffect(() => {
@@ -29,6 +30,10 @@ function SocialNetwork(props) {
     Axios.post(settings.config.SERVER_URL + '/getUser', {id: props.id})
       .then((response) => {
         setData(response.data[0])
+    });
+    Axios.post(settings.config.SERVER_URL + "/newFollowers", {profileID: props.id})
+      .then((response) => {
+        setNewFollowers(response.data)
         setLoading(false)
     });
   }
@@ -69,6 +74,28 @@ function SocialNetwork(props) {
                 <button className='addPostButton' onClick={()=> {window.location.href = "post/new"}}>
                   Beitrag erstellen
                 </button>
+                { newFollowers.length > 0 ?
+                <div className='newFollower'>
+                  {newFollowers.map((follower) => (
+                    <div style={{marginBottom: "5%"}}>
+                      <span><a className="networkEntry" href={"/profile/" + follower.username} style={{ display: 'flex', textAlign: 'left', alignContent:      "space-evenly"}}>
+                      <img className='profilePicture'  
+                          style={{width: "10%", borderRadius: "100%", boxShadow: "none", objectFit: "cover"}} 
+                          src={"/profile-pictures/profilePicture" + follower.profileID + ".png"} onError={({ currentTarget }) => {
+                          currentTarget.onerror = null; 
+                          currentTarget.src="/profile-pictures/profilePicture.png";
+                      }}/>
+                      <div style={{paddingLeft: "2%"}}>
+                        <h5 style={{fontWeight: "normal",margin: 0, verticalAlign: "middle"}}><b>{follower.username}</b> Folgt dir jetzt</h5>
+                        <h5 style={{fontWeight: "normal",margin: 0, color: "#8E8E8E"}}>{follower.date.split("T")[0] + " " + follower.date.split("T")[1].slice(0, 5)}</h5>
+                      </div>
+                      </a>
+                      </span>
+                    </div>
+                  ))}
+                </div>:
+                <div />
+                }
               </div>
             </main></body>}/>
         <Route path='/post/:id' element={<Post id={props.id}/>}/>
