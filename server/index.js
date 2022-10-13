@@ -331,7 +331,7 @@ app.post(settings.PREFIX + "/getPost", (req, res)=> {
 app.post(settings.PREFIX + "/getComments", (req, res)=> {
     const postID = req.body.postID;
     db.query(
-        "SELECT comments.*, profile.username, profile.profileID FROM comments JOIN profile ON comments.profileID = profile.profileID WHERE postID = ? order by date desc;",
+        "SELECT comments.*, profile.username, profile.profileID FROM comments JOIN profile ON comments.profileID = profile.profileID WHERE postID = ? order by commentDate desc;",
         postID,
         (err, result) => {
             res.send(result)
