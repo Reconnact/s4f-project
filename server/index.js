@@ -331,7 +331,7 @@ app.post(settings.PREFIX + "/getPost", (req, res)=> {
 app.post(settings.PREFIX + "/getComments", (req, res)=> {
     const postID = req.body.postID;
     db.query(
-        "SELECT comments.*, profile.username, profile.profileID FROM comments JOIN profile ON comments.profileID = profile.profileID WHERE postID = ? order by comments.commentDate desc;",
+        "SELECT comments.*, profile.username, profile.profileID FROM comments JOIN profile ON comments.profileID = profile.profileID WHERE postID = ? order by date desc;",
         postID,
         (err, result) => {
             res.send(result)
@@ -351,6 +351,96 @@ app.post(settings.PREFIX + "/postComment", (req, res)=> {
         }
     )
 });
+
+app.post(settings.PREFIX + "/getFollowerCount", (req, res) => {
+    const profileID = req.body.profileID;
+    db.query(
+        "select count(*) as followers from followers join profile on profile.profileID = followers.followerID where followers.profileID = ?;",
+        profileID,
+        (err, result) => {
+            res.send(result)
+        }  
+    )
+})
+
+app.post(settings.PREFIX + "/getFollowingCount", (req, res) => {
+    const profileID = req.body.profileID;
+    db.query(
+        "select count(*) as following from followers join profile on profile.profileID = followers.profileID where followers.followerID = ?;",
+        profileID,
+        (err, result) => {
+            res.send(result)
+        }  
+    )
+})
+
+app.post(settings.PREFIX + "/getFollowers", (req, res) => {
+    const profileID = req.body.profileID;
+    db.query(
+        "select profile.username, profile.profileID, profile.firstName, profile.lastName from followers join profile on profile.profileID = followers.followerID where followers.profileID = ?;",
+        profileID,
+        (err, result) => {
+            res.send(result)
+        }  
+    )
+})
+
+app.post(settings.PREFIX + "/getFollowing", (req, res) => {
+    const profileID = req.body.profileID;
+    db.query(
+        "select profile.username, profile.profileID, profile.firstName, profile.lastName from followers join profile on profile.profileID = followers.profileID where followers.followerID = ?;",
+        profileID,
+        (err, result) => {
+            res.send(result)
+        }  
+    )
+})
+
+app.post(settings.PREFIX + "/getPostCount", (req, res) => {
+    const profileID = req.body.profileID;
+    db.query(
+        "select count(*) as posts from post where profileID = ?;",
+        profileID,
+        (err, result) => {
+            res.send(result)
+        }  
+    )
+})
+
+app.post(settings.PREFIX + "/checkFollowing", (req, res) => {
+    const profileID = req.body.profileID;
+    const followingID = req.body.followingID;
+    db.query(
+        "select count(*) as following from followers where profileID = ? and followerID = ?;",
+        [profileID, followingID],
+        (err, result) => {  
+            res.send(result)
+        }  
+    )
+})
+
+app.post(settings.PREFIX + "/switchFollowing", (req, res) => {
+    const following = req.body.following;
+    const profileID = req.body.profileID;
+    const followerID = req.body.followerID;
+    if (following){
+        db.query(
+            "delete from followers where profileID = ? and followerID = ?;",
+            [profileID, followerID],
+            (err,result) => {
+                res.send(result)
+            }
+        )
+    } else {
+        db.query(
+            "insert into followers(profileID, followerID) values (?, ?);",
+            [profileID, followerID],
+            (err,result) => {
+                res.send(result)
+            }
+        )
+    }
+})
 
 app.listen(3001, () => {
     console.log("running");

@@ -581,3 +581,7 @@ button:hover {
 .postTitle:hover {
   text-decoration: underline;
 }
+
+.networkEntry:hover {
+  text-decoration: underline;
+}

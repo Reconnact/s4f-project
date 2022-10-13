@@ -15,6 +15,7 @@ import Content from '../components/content';
 import ChangePassword from './changePassword';
 import ChangePicture from './changePicture';
 import Loading from '../components/loading';
+import Follower from './follower';
 
 function SocialNetwork(props) {
   const [data, setData] = useState();
@@ -74,6 +75,8 @@ function SocialNetwork(props) {
         <Route path='/post/new' element={<CreatePost id={props.id}/>}/>
         <Route path="/account" element={<Account id={props.id} username={props.username}/>}/>
         <Route path="/profile/:username" element={<Profile username={props.username} id={props.id}/>}/>
+        <Route path="/profile/:username/network" element={<Follower id={props.id} username={props.username}/>}/>
+        <Route path="/account/network" element={<Follower id={props.id} username={props.username}/>}/>
         <Route path="/account/edit" element={<Edit id={props.id}/>}/>
         <Route path="/account/changePassword" element={<ChangePassword id={props.id}/>}/>
         <Route path="/account/changePicture" element={<ChangePicture id={props.id} username={props.username}/>}/>

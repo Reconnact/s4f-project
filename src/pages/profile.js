@@ -44,7 +44,7 @@ function Profile(props) {
             </Helmet>
             <Header id={props.id}/>
             <main style={{display: "block"}}>
-                <ProfileData data={data} account={false} />
+                <ProfileData data={data} account={false} id={props.id}/>
                 <div className='profilePosts' id='profilePosts'>
                     <Content account={true} username={username} user={props.username}/>
                 </div>
