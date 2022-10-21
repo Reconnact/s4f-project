@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import Axios from 'axios';
-import './App.css';
 import SocialNetwork from './pages/network';
 import * as settings from './conf/conf';
 import Helmet from 'react-helmet';
 import Swal from 'sweetalert2';
 import Loading from './components/loading';
+
 
 function Login(){
   const [username, setUsername] = useState();

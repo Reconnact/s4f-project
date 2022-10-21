@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import './App.css';
 import * as settings from './conf/conf';
 import Swal from 'sweetalert2';
 

@@ -26,16 +26,17 @@ function SocialNetwork(props) {
     getData();
   }, []);
 
-  const getData = () => {
-    Axios.post(settings.config.SERVER_URL + '/getUser', {id: props.id})
-      .then((response) => {
-        setData(response.data[0])
+  const getData = async () => {
+    let userResponse = await Axios.post(settings.config.SERVER_URL + '/getUser', {id: props.id}).then((response) => {
+      setData(response.data[0])
     });
-    Axios.post(settings.config.SERVER_URL + "/newFollowers", {profileID: props.id})
+    let followerResponse = await Axios.post(settings.config.SERVER_URL + "/newFollowers", {profileID: props.id})
       .then((response) => {
         setNewFollowers(response.data)
         setLoading(false)
     });
+    
+    
   }
 
   if (isLoading) {

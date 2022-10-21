@@ -1,18 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import Login from './login';
 import Register from './register';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import Reset from './pwreset';
 import ChangePassword from './reset'
-global.__basedir = __dirname;
-ReactDOM.render(
+import { createRoot } from "react-dom/client";
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
   <Router>
     <Helmet>
       <meta charSet="utf-8" />
       <title>Social IMS</title>
-    </Helmet>
+    </Helmet> 
     <Routes>
       <Route path="/" element={<Login/>} />
       <Route path="/register" element={<Register />}/>
@@ -23,3 +27,4 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
+
