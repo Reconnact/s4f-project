@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'
 
 function changePicture(props){
     const id = props.id;
+
     const onChange = () => {
         const file = document.getElementById("mypic").files[0];
         if (file) {
@@ -26,6 +27,7 @@ function changePicture(props){
     const buttonClick = () => {
         document.getElementById('mypic').click()
     }
+
 
     return (
         <body>
@@ -57,6 +59,7 @@ function changePicture(props){
                 </form>
             </div>
             </main>
+
         </body>
     )
 }

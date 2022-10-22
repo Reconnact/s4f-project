@@ -112,9 +112,7 @@ function Content(props) {
               <button className="interactivePostButton" onClick={() => deletePost(blog.id)}><img src="/deleteIcon.png" style={{width: "100%"}}/></button>
             }
           </div>
-          
         </div>
-
       ))}
     </div>  
   )

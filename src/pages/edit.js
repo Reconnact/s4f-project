@@ -12,25 +12,14 @@ function Edit(props) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [bio, setBio] = useState('');
-    const [data, setData] = useState();
-    const [isLoading, setLoading] = useState(true);
     const [changed, setChanged] = useState(false)
     
     useEffect(() => {
-        getData();
+        setUsername(props.data.username)
+        setFirstName(props.data.firstName)
+        setLastName(props.data.lastName)
+        setBio(props.data.bio)
     }, []);
-
-    const getData = () => {
-        Axios.post(settings.config.SERVER_URL + '/getUser', {id: props.id})
-        .then((response) => {
-            setUsername(response.data[0].username)
-            setFirstName(response.data[0].firstName)
-            setLastName(response.data[0].lastName)
-            setBio(response.data[0].bio)
-            setData(response.data[0])
-            setLoading(false)
-        });
-    }
 
     const changePassword = () => {
         window.location.href = "/account/changePassword"
@@ -45,7 +34,7 @@ function Edit(props) {
     const changeData = () => {
         (async () => {
             await Axios.post(settings.config.SERVER_URL + '/editProfile', {
-            oldUsername: data.username,
+            oldUsername: props.data.username,
             username: username,
             firstName: firstName,
             lastName: lastName,
@@ -64,10 +53,6 @@ function Edit(props) {
         })()
     }
 
-    if (isLoading) {
-        return <Loading />;
-      }
-
     if (changed){
         const button = document.getElementById("changeData").disabled = false;
     }
@@ -76,46 +61,46 @@ function Edit(props) {
         <body>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>{data.username} | Edit account</title>
+                <title>{props.data.username} | Edit account</title>
             </Helmet>
-            <Header id={data.profileID}/>
+            <Header id={props.data.profileID}/>
             <main>
             <div className='profile'>
                 <div className='editProfile'>
                         <div style={{paddingLeft: '5%', width: '40%'}}>
                             <div className='editProfileData'>
                                 <img className='profilePicture' 
-                                    style={{paddingBottom: "0"}} src={"/profile-pictures/profilePicture" + data.profileID + ".png"} onError={({ currentTarget }) => {
+                                    style={{paddingBottom: "0"}} src={"/profile-pictures/profilePicture" + props.data.profileID + ".png"} onError={({ currentTarget }) => {
                                     currentTarget.onerror = null; 
                                     currentTarget.src="/profile-pictures/profilePicture.png";
                                 }}/><br/>
                                 <div className='editPicture'>
-                                    <p>@{data.username}</p>
+                                    <p>@{props.data.username}</p>
                                     <a onClick={changeProfilePicture}>Profilbild ändern</a>
                                 </div>
                             </div>
                             <div className='edit'>
                                 <label className='editText'>Username:</label>
-                                <div><input maxLength={45} type="text" placeholder={data.username}
+                                <div><input maxLength={45} type="text" placeholder={props.data.username}
                                 onChange={(e) => {setUsername(e.target.value); setChanged(true)}}
-                                defaultValue={data.username}/></div>
+                                defaultValue={props.data.username}/></div>
                             </div>
                             <div className='edit'>
                                 <label className='editText'>Vorname:</label>
-                                <div><input type="text" maxLength={100} placeholder={data.firstName}
+                                <div><input type="text" maxLength={100} placeholder={props.data.firstName}
                                 onChange={(e) => {setFirstName(e.target.value); setChanged(true)}}
-                                defaultValue={data.firstName}/></div>
+                                defaultValue={props.data.firstName}/></div>
                             </div>
                             <div className='edit'>
                                 <label className='editText'>Nachname: </label>
-                                <div><input type="text" maxLength={100} placeholder={data.lastName}
+                                <div><input type="text" maxLength={100} placeholder={props.data.lastName}
                                 onChange={(e) => {setLastName(e.target.value); setChanged(true)}}
-                                defaultValue={data.lastName}/></div>
+                                defaultValue={props.data.lastName}/></div>
                             </div>
                             <div className='edit' style={{height: "25%", marginBottom: "5%"}}>
                                 <label className='editText' >Profil-Bio: </label>
                                 <textarea maxLength={150}
-                                onChange={(e) => {setBio(e.target.value); setChanged(true)}}>{data.bio}</textarea>
+                                onChange={(e) => {setBio(e.target.value); setChanged(true)}}>{props.data.bio}</textarea>
                             </div>
                             <div style={{justifyContent: "space-between", display: "flex"}}>
                             <button onClick={() =>{window.location.href = "/account"}}>Zurück</button>

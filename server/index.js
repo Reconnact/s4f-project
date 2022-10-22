@@ -174,6 +174,9 @@ app.post(settings.PREFIX + "/content", (req, res)=> {
     db.query(
         "select post.*, profile.username from post join profile where profile.profileID = post.profileID order by date desc limit 10;",
         (err, result)=> {
+            if (err){
+                res.send(err);
+            }
             res.send(result);
         }
     );
@@ -196,6 +199,9 @@ app.post(settings.PREFIX + "/allUser", (req, res)=> {
         "select profileID, username, firstName, lastName from profile where profileID != ?;",
         id,
         (err, result)=> {
+            if (err){
+                res.send(err);
+            }
             res.send(result);
         }
     )
@@ -227,6 +233,9 @@ app.get(settings.PREFIX + "/contentNum", (req, res)=> {
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result);
         }
     );
@@ -235,9 +244,12 @@ app.get(settings.PREFIX + "/contentNum", (req, res)=> {
 app.post(settings.PREFIX + "/getUser", (req, res)=> {
     const id = req.body.id;
     db.query(
-        "SELECT profileID, username, firstName, lastName, bio FROM profile WHERE profileID = ?;",
+        "SELECT profileID, username, firstName, lastName, bio FROM profile   WHERE profileID = ?;",
         id,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result);
         }
     );
@@ -249,6 +261,9 @@ app.post(settings.PREFIX + "/getUserByUsername", (req, res)=> {
         "SELECT profileID, username, firstName, lastName, bio FROM profile WHERE username = ?;",
         username,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result);
         }
     );
@@ -260,6 +275,9 @@ app.post(settings.PREFIX + "/getUserByMail", (req, res)=> {
         "SELECT * FROM profile WHERE mail = ?;",
         email,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result);
         }
     );
@@ -299,6 +317,9 @@ app.post(settings.PREFIX + "/changePassword", (req, res)=> {
             "UPDATE profile SET password = ? WHERE profileID = ?;",
             [hash, profileID],
             (err, result) => {
+                if (err){
+                    res.send(err);
+                }
                 res.send(result)
             }
         );  
@@ -311,6 +332,9 @@ app.post(settings.PREFIX + "/deleteToken", (req, res)=> {
         "DELETE FROM resetpassword WHERE link = ?;",
         token,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }
     );  
@@ -323,6 +347,9 @@ app.post(settings.PREFIX + "/getPost", (req, res)=> {
         "SELECT post.*, profile.username, profile.firstName, profile.lastName, profile.profileID FROM post JOIN profile ON post.profileID = profile.profileID WHERE postID = ?;",
         postID,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }
     )
@@ -334,6 +361,9 @@ app.post(settings.PREFIX + "/getComments", (req, res)=> {
         "SELECT comments.*, profile.username, profile.profileID FROM comments JOIN profile ON comments.profileID = profile.profileID WHERE postID = ? order by commentDate desc;",
         postID,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }
     )
@@ -347,6 +377,9 @@ app.post(settings.PREFIX + "/postComment", (req, res)=> {
         "INSERT INTO comments(profileID, postID, comment) VALUES(?, ?, ?);",
         [profileID, postID, comment],
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }
     )
@@ -358,6 +391,9 @@ app.post(settings.PREFIX + "/getFollowerCount", (req, res) => {
         "select count(*) as followers from followers join profile on profile.profileID = followers.followerID where followers.profileID = ?;",
         profileID,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }  
     )
@@ -369,6 +405,9 @@ app.post(settings.PREFIX + "/getFollowingCount", (req, res) => {
         "select count(*) as following from followers join profile on profile.profileID = followers.profileID where followers.followerID = ?;",
         profileID,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }  
     )
@@ -391,6 +430,9 @@ app.post(settings.PREFIX + "/getFollowing", (req, res) => {
         "select profile.username, profile.profileID, profile.firstName, profile.lastName from followers join profile on profile.profileID = followers.profileID where followers.followerID = ?;",
         profileID,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }  
     )
@@ -413,7 +455,10 @@ app.post(settings.PREFIX + "/checkFollowing", (req, res) => {
     db.query(
         "select count(*) as following from followers where profileID = ? and followerID = ?;",
         [profileID, followingID],
-        (err, result) => {  
+        (err, result) => { 
+            if (err){
+                res.send(err);
+            } 
             res.send(result)
         }  
     )
@@ -428,6 +473,9 @@ app.post(settings.PREFIX + "/switchFollowing", (req, res) => {
             "delete from followers where profileID = ? and followerID = ?;",
             [profileID, followerID],
             (err,result) => {
+                if (err){
+                    res.send(err);
+                }
                 res.send(result)
             }
         )
@@ -448,6 +496,9 @@ app.post(settings.PREFIX + "/newFollowers", (req, res) => {
         "select profile.username, profile.profileID, followers.date from followers join profile on profile.profileID = followers.followerID where followers.profileID = ? order by date desc limit 5;",
         profileID,
         (err, result) => {
+            if (err){
+                res.send(err);
+            }
             res.send(result)
         }
     )

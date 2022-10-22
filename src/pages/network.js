@@ -16,6 +16,7 @@ import ChangePassword from './changePassword';
 import ChangePicture from './changePicture';
 import Loading from '../components/loading';
 import Follower from './follower';
+import Footer from '../components/footer'
 
 function SocialNetwork(props) {
   const [data, setData] = useState();
@@ -35,13 +36,12 @@ function SocialNetwork(props) {
         setNewFollowers(response.data)
         setLoading(false)
     });
-    
-    
   }
 
   if (isLoading) {
     return <Loading />
   }
+
   return (
     <Router>
       <Helmet>
@@ -53,8 +53,8 @@ function SocialNetwork(props) {
           <body>
             <Header id={data.profileID}/>
             <main>
-              <div className='feed' id='feed' >
-                < Content max={50} account={false} username={data.username} user={data.username}/>
+              <div className='feed' id='feed'>
+                <Content max={50} account={false} username={data.username} user={data.username}/>
               </div>
               <div style={{float: "right", width: "30%", marginTop: "2%"}}>
                 <div className='personalCard'>
@@ -98,14 +98,16 @@ function SocialNetwork(props) {
                 <div />
                 }
               </div>
-            </main></body>}/>
+            </main>
+            <Footer />
+            </body>}/>
         <Route path='/post/:id' element={<Post id={props.id}/>}/>
         <Route path='/post/new' element={<CreatePost id={props.id}/>}/>
-        <Route path="/account" element={<Account id={props.id} username={props.username}/>}/>
+        <Route path="/account" element={<Account id={props.id} username={props.username} data={data}/>}/>
         <Route path="/profile/:username" element={<Profile username={props.username} id={props.id}/>}/>
         <Route path="/profile/:username/network" element={<Follower id={props.id} username={props.username}/>}/>
         <Route path="/account/network" element={<Follower id={props.id} username={props.username}/>}/>
-        <Route path="/account/edit" element={<Edit id={props.id}/>}/>
+        <Route path="/account/edit" element={<Edit id={props.id} data={data}/>}/>
         <Route path="/account/changePassword" element={<ChangePassword id={props.id}/>}/>
         <Route path="/account/changePicture" element={<ChangePicture id={props.id} username={props.username}/>}/>
         <Route path="*" element={<Error />}/>
