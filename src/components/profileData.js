@@ -44,6 +44,14 @@ function ProfileData(props){
     setIsFollowing(!isFollowing)
   }
 
+  const showImage = () => {      
+    var modal = document.getElementById("myModal");  
+    var img = document.getElementById("profilePicture");
+    var modalImg = document.getElementById("biggerImage");
+    modal.style.display = "block";
+    modalImg.src = img.src;
+  }
+
   if (isLoading){
     return(
       <Loading />
@@ -57,11 +65,11 @@ function ProfileData(props){
           <div style={{display: "flex"}}>
             <div style={{width: "17%"}}>
               <div className="avatar">
-                <img className='profilePicture' 
+                <img className='profilePicture' id="profilePicture" 
                   src={"/profile-pictures/profilePicture" + props.data.profileID + ".png"} onError={({ currentTarget }) => {
                     currentTarget.onerror = null; 
                     currentTarget.src="/profile-pictures/profilePicture.png";
-                  }}/>
+                  }} onClick={showImage}/>
               </div><br/>
             </div>
             <div style={{width: "100%", marginLeft: "5%"}}>
@@ -79,7 +87,6 @@ function ProfileData(props){
                     <button className='button' onClick={switchFollow}>Folgen</button>
                   </div>
                 }
-
               </div>
               <p style={{margin: "0", marginBottom: "3%"}}>{props.data.firstName} {props.data.lastName}</p>
               <div style={{display: "flex", width: "40%", justifyContent: "space-between"}}>
@@ -91,6 +98,10 @@ function ProfileData(props){
             </div>
           </div>
         </div>
+      </div>
+      <div id="myModal" className="modal">
+        <span className="close" onClick={(e) => {document.getElementById("myModal").style.display = "none"}}>&times;</span>
+        <img className="modal-content" id="biggerImage"/>
       </div>
     </div>
   )
