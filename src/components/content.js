@@ -33,8 +33,6 @@ function Content(props) {
         })
       }
     })
-
-    
   }
   
 

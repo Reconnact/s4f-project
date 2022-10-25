@@ -42,6 +42,29 @@ function Post(props){
         }
     }
 
+    const deleteComment = (id) => {
+        Swal.fire({
+            title: 'Kommentar wirklich löschen?',
+            text: "Wenn der Kommentar gelöscht ist kannst du ihn nicht wiederherstellen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Löschen'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Axios.post(settings.config.SERVER_URL + '/deleteComment', {id: id}) 
+              Swal.fire(
+                'Gelöscht!',
+                'Dein Kommentar wurde gelöscht.',
+                'info'
+              ).then((result) => {
+                window.location.reload()
+              })
+            }
+          })
+    }
+
     useEffect(() => {
 
         Axios.post(settings.config.SERVER_URL + "/getPost", {postID: id}).then((result) => {
@@ -103,30 +126,33 @@ function Post(props){
                         </div>     
                     </div>
                     {data.comments.length > 0 && <div className="comments" style={{boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)", borderRadius: "15px", padding: "3%"}} >
-                    {data.comments.map(function(comment, i){
-                        return (
-                            <div>
-                                <div style={{boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)", borderRadius: "15px", padding: "3%"}}>
-                                    <div className="comment" style={{width: "100%"}}>
-                                        <div className="user" style={{alignItems: "center"}}>
-                                            <img className='profilePicture' 
-                                                alt="user" id="image" src={"/profile-pictures/profilePicture" + comment.profileID + ".png"} onError={({ currentTarget }) => {
-                                                currentTarget.onerror = null; 
-                                                currentTarget.src="/profile-pictures/profilePicture.png";
-                                            }}  style={{marginRight: "5%", verticalAlign: "center"}}/>
-                                            <div className="user-info">
-                                                <h5>{comment.username}</h5>
-                                                <small>{comment.commentDate.split("T")[0] + " " + comment.commentDate.split("T")[1].slice(0, 5)}</small>
+                        {data.comments.map(function(comment, i){
+                            return (
+                                <div>
+                                    <div style={{boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)", borderRadius: "15px", padding: "3%", paddingRight: "0", display: "flex"}}>
+                                        <div className="comment" style={{width: "100%"}}>
+                                            <div className="user" style={{alignItems: "center"}}>
+                                                <img className='profilePicture' 
+                                                    alt="user" id="image" src={"/profile-pictures/profilePicture" + comment.profileID + ".png"} onError={({ currentTarget }) => {
+                                                    currentTarget.onerror = null; 
+                                                    currentTarget.src="/profile-pictures/profilePicture.png";}}  
+                                                    style={{verticalAlign: "center"}}/>
+                                                <div className="user-info">
+                                                    <h5>{comment.username}</h5>
+                                                    <small>{comment.commentDate.split("T")[0] + " " + comment.commentDate.split("T")[1].slice(0, 5)}</small>
+                                                </div>
+                                            </div><br/>
+                                            <div >
+                                                <p style={{marginTop: "0"}}>{comment.comment}</p>
                                             </div>
-                                        </div><br/>
-                                        <div >
-                                        <p style={{marginTop: "0"}}>{comment.comment}</p>
-                                    </div>
-                                    </div>
-                                </div><br />
-                            </div>
-                        )
-                    })}
+                                        </div>
+                                        {props.id == comment.profileID && <div className="postButtons" style={{width: "auto"}}>
+                                            <button className="interactivePostButton" onClick={() => {deleteComment(comment.commentID)}}><img src="/deleteIcon.png" style={{width: "100%"}}/></button>
+                                        </div>}
+                                    </div><br />
+                                </div>
+                            )
+                        })}
                     </div>}
                 </div>
                 <div style={{float: "right", width: "30%", marginTop: "2%"}}>

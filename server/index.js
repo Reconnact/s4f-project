@@ -229,6 +229,17 @@ app.post(settings.PREFIX + "/deletePost", (req, res)=> {
     )
 });
 
+app.post(settings.PREFIX + "/deleteComment", (req, res)=> {
+    const id = req.body.id;
+    db.query(
+        "DELETE FROM comments WHERE commentID = ?;",
+        id,
+        (err, result)=> {
+            res.send(result);
+        }
+    )
+});
+
 app.get(settings.PREFIX + "/contentNum", (req, res)=> { 
     db.query(
         "SELECT MAX(postID) AS Max_Id FROM post;",
